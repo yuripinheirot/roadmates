@@ -11,5 +11,5 @@ export class EstimateRequestDto {
 
   @IsNotEmpty()
   @IsString()
-  customer_id: string;
+  customerId: string;
 }
