@@ -21,21 +21,37 @@ describe('[UNIT] [rides/estimate.controller] - [estimate()]', () => {
   });
 
   describe('estimate()', () => {
-    test('should validate all required params', async () => {
-      const response = await request(app.getHttpServer()).post(sut);
+    describe('validations', () => {
+      test('should validate all required params', async () => {
+        const response = await request(app.getHttpServer()).post(sut);
 
-      expect(response.status).toBe(400);
-      expect(response.body).toEqual({
-        error: 'Bad Request',
-        message: [
-          'origin must be a string',
-          'origin should not be empty',
-          'destination must be a string',
-          'destination should not be empty',
-          'customer_id must be a string',
-          'customer_id should not be empty',
-        ],
-        statusCode: 400,
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual({
+          error: 'Bad Request',
+          message: [
+            'origin must be a string',
+            'origin should not be empty',
+            'destination must be a string',
+            'destination should not be empty',
+            'customer_id must be a string',
+            'customer_id should not be empty',
+          ],
+          statusCode: 400,
+        });
+      });
+
+      test('should return error if destination is same as origin', async () => {
+        const response = await request(app.getHttpServer()).post(sut).send({
+          origin: 'A',
+          destination: 'A',
+          customer_id: '1',
+        });
+
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual({
+          error_code: 'INVALID_DATA',
+          error_description: 'Origin and destination cannot be the same',
+        });
       });
     });
   });
