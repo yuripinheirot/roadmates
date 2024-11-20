@@ -2,6 +2,7 @@ import { RideRepositoryService } from '@/modules/rides/repository/ride-repositor
 import { EstimateService } from '@/modules/rides/services/estimate.service';
 import { GoogleApiService } from '@/providers/google-api/google-api.service';
 import { TestingModule } from '@nestjs/testing';
+import { driversMock } from '@specs/mocks/drivers.mock';
 import { googleApiRouteResponseMock } from '@specs/mocks/google-api-route-response.mock';
 import { buildTestingModule } from '@specs/support/specs.module';
 
@@ -25,18 +26,20 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
     jest.clearAllMocks();
   });
 
+  const shorterRouteMock = {
+    distanceMeters: 100,
+    duration: '165s',
+    polyline: {
+      encodedPolyline: 'ipkcFfichVnP@j@BLoFVwM{E?',
+    },
+  };
+
   describe('takeShorterRoute()', () => {
     describe('validations', () => {
       test('should return the shorter route', () => {
         const shorterRoute = sut.takeShorterRoute(googleApiRouteResponseMock);
 
-        expect(shorterRoute).toEqual({
-          distanceMeters: 100,
-          duration: '165s',
-          polyline: {
-            encodedPolyline: 'ipkcFfichVnP@j@BLoFVwM{E?',
-          },
-        });
+        expect(shorterRoute).toEqual(shorterRouteMock);
       });
     });
   });
@@ -59,6 +62,30 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
           origin: 'A',
           destination: 'B',
         });
+      });
+
+      test('should call rideRepository.getRidersByMinDistance()', async () => {
+        await sut.handle({ origin: 'A', destination: 'B', customerId: '1' });
+
+        expect(rideRepository.getRidersByMinDistance).toHaveBeenCalledWith(
+          shorterRouteMock.distanceMeters,
+        );
+      });
+    });
+
+    describe('success', () => {
+      test('should return the drivers', async () => {
+        jest
+          .spyOn(rideRepository, 'getRidersByMinDistance')
+          .mockResolvedValue(driversMock);
+
+        const drivers = await sut.handle({
+          origin: 'A',
+          destination: 'B',
+          customerId: '1',
+        });
+
+        expect(drivers).toEqual(driversMock);
       });
     });
   });
