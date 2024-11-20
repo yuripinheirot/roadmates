@@ -3,8 +3,7 @@ version: '3.9'
 volumes:
   app-vol:
   node-modules-vol:
-  mssql-vol:
-  keycloak-vol:
+  postgres-vol:
   redis-vol:
 
 networks:
@@ -31,6 +30,21 @@ services:
       - 3003:3003
       - 9229:9229
     command: ash -c "yarn install && yarn dev"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: roadmates
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - app-network
 
   redis:
     hostname: redis
