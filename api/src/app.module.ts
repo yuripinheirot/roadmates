@@ -4,7 +4,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { PrettyOptions } from 'pino-pretty';
 import { RidesModule } from './modules/rides/rides.module';
-import { GoogleApiService } from './providers/google-api/google-api.service';
 
 @Module({
   imports: [
@@ -36,6 +35,6 @@ import { GoogleApiService } from './providers/google-api/google-api.service';
     RidesModule,
   ],
   controllers: [],
-  providers: [GoogleApiService],
+  providers: [],
 })
 export class AppModule {}
