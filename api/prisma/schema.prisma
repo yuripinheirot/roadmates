@@ -18,6 +18,8 @@ model Customer {
   name String
 
   rides Ride[]
+
+  @@map("customers")
 }
 
 model Driver {
@@ -30,6 +32,8 @@ model Driver {
   minDistance Int     @map("min_distance")
 
   rides Ride[]
+
+  @@map("drivers")
 }
 
 model Ride {
@@ -46,4 +50,6 @@ model Ride {
 
   customer Customer @relation(fields: [customerId], references: [id])
   driver   Driver   @relation(fields: [driverId], references: [id])
+
+  @@map("rides")
 }
