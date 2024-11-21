@@ -12,10 +12,7 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ConfirmService {
-  constructor(
-    private readonly googleApiService: GoogleApiService,
-    private readonly rideRepository: RideRepositoryService,
-  ) {}
+  constructor(private readonly rideRepository: RideRepositoryService) {}
 
   async validations(body: ConfirmRequestDto): Promise<void> {
     const driver = await this.rideRepository.findDriverById(body.driver.id);
