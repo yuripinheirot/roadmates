@@ -28,6 +28,7 @@ export class ConfirmRequestDto {
   destination: string;
 
   @IsNumber()
+  @IsNotEmpty()
   distance: number;
 
   @IsString()
@@ -36,8 +37,10 @@ export class ConfirmRequestDto {
 
   @Type(() => DriverDto)
   @ValidateNested()
+  @IsNotEmpty()
   driver: DriverDto;
 
   @IsNumber()
+  @IsNotEmpty()
   value: number;
 }
