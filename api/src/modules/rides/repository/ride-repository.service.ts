@@ -1,6 +1,6 @@
 import { PrismaService } from '@/services/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Driver, Prisma, Ride } from '@prisma/client';
+import { Customer, Driver, Prisma, Ride } from '@prisma/client';
 import { ListParamsRequestDto } from '../dtos/list-params.request.dto';
 import { ListQueryRequestDto } from '../dtos/list-query.request.dto';
 
@@ -39,6 +39,12 @@ export class RideRepositoryService {
       orderBy: {
         date: 'desc',
       },
+    });
+  }
+
+  async findCustomerById(id: string): Promise<Customer | null> {
+    return this.prismaService.customer.findUnique({
+      where: { id },
     });
   }
 }
