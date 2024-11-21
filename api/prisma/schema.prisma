@@ -28,13 +28,13 @@ model Customer {
 }
 
 model Driver {
-  id          String  @id @default(uuid())
+  id          String @id @default(uuid())
   name        String
   description String
   vehicle     String
   review      Json
-  value       Decimal
-  minDistance Int     @map("min_distance")
+  value       BigInt
+  minDistance Int    @map("min_distance")
 
   rides Ride[]
 
@@ -47,7 +47,7 @@ model Ride {
   destination String
   distance    Int
   duration    String
-  value       Decimal
+  value       BigInt
   date        DateTime
 
   customer_id String
