@@ -9,7 +9,7 @@ export class EstimateController {
   constructor(private readonly estimateService: EstimateService) {}
 
   @Post('estimate')
-  async estimate(@Body() body: EstimateRequestDto) {
+  async handle(@Body() body: EstimateRequestDto) {
     if (body.origin === body.destination) {
       throw new BadRequestException({
         error_code: 'INVALID_DATA',
