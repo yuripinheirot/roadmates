@@ -50,6 +50,15 @@ export class ListService {
 
     const rides = await this.rideRepository.listRides(dto);
 
+    if (rides.length === 0) {
+      throw new NotFoundException(
+        formatResponseError({
+          code: CodeErrorsEnum.NO_RIDES_FOUND,
+          message: 'Rides not found',
+        }),
+      );
+    }
+
     return {
       customer_id: dto.customer_id,
       rides,
