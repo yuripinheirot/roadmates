@@ -2,6 +2,7 @@ import { GoogleApiService } from '@/providers/google-api/google-api.service';
 import {
   BadRequestException,
   Injectable,
+  NotAcceptableException,
   NotFoundException,
 } from '@nestjs/common';
 import { RideRepositoryService } from '../repository/ride-repository.service';
@@ -29,9 +30,9 @@ export class ConfirmService {
     }
 
     if (driver.minDistance > body.distance) {
-      throw new BadRequestException(
+      throw new NotAcceptableException(
         formatResponseError({
-          code: CodeErrorsEnum.INVALID_DATA,
+          code: CodeErrorsEnum.INVALID_DISTANCE,
           message: 'Driver does not have the minimum distance',
         }),
       );

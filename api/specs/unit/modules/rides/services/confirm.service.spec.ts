@@ -4,7 +4,11 @@ import { ConfirmService } from '@/modules/rides/services/confirm.service';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { GoogleApiService } from '@/providers/google-api/google-api.service';
 import { formatResponseError } from '@/utils/format-response-error.util';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { driversMock } from '@specs/mocks/drivers.mock';
 import { buildTestingModule } from '@specs/support/specs.module';
@@ -84,9 +88,9 @@ describe('[UNIT] [rides/confirm.service] - [handle()]', () => {
         });
 
         await expect(response).rejects.toThrow(
-          new BadRequestException(
+          new NotAcceptableException(
             formatResponseError({
-              code: CodeErrorsEnum.INVALID_DATA,
+              code: CodeErrorsEnum.INVALID_DISTANCE,
               message: 'Driver does not have the minimum distance',
             }),
           ),
