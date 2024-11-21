@@ -15,6 +15,7 @@ export class GoogleApiService {
     this.GOOGLE_API_KEY = this.configService.getOrThrow('GOOGLE_API_KEY');
   }
 
+  // TODO: implementar cache
   async calculateRoute(dto: CalculateRouteDto): Promise<GoogleRouteResponse> {
     const { origin, destination } = dto;
 
