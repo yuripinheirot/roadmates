@@ -5,16 +5,42 @@ export const googleApiRouteResponseMock: GoogleRouteResponse = {
     {
       distanceMeters: 300,
       duration: '365s',
-      polyline: {
-        encodedPolyline: 'ipkcFfichVnP@j@BLoFVwM{E?',
-      },
+      legs: [
+        {
+          startLocation: {
+            latLng: {
+              latitude: 0,
+              longitude: 0,
+            },
+          },
+          endLocation: {
+            latLng: {
+              latitude: 1,
+              longitude: 1,
+            },
+          },
+        },
+      ],
     },
     {
       distanceMeters: 100,
       duration: '165s',
-      polyline: {
-        encodedPolyline: 'ipkcFfichVnP@j@BLoFVwM{E?',
-      },
+      legs: [
+        {
+          startLocation: {
+            latLng: {
+              latitude: 0,
+              longitude: 0,
+            },
+          },
+          endLocation: {
+            latLng: {
+              latitude: 1,
+              longitude: 1,
+            },
+          },
+        },
+      ],
     },
   ],
 };
