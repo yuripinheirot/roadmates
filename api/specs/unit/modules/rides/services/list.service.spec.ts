@@ -2,7 +2,7 @@ import { RideRepositoryService } from '@/modules/rides/repository/ride-repositor
 import { ListService } from '@/modules/rides/services/list.service';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { formatResponseError } from '@/utils/format-response-error.util';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { customerMock } from '@specs/mocks/customer.mock';
 import { driversMock } from '@specs/mocks/drivers.mock';
@@ -70,9 +70,9 @@ describe('[UNIT] [rides/list.service] - [handle()]', () => {
         const response = sut.handle(validPayload);
 
         await expect(response).rejects.toThrow(
-          new NotFoundException(
+          new BadRequestException(
             formatResponseError({
-              code: CodeErrorsEnum.DRIVER_NOT_FOUND,
+              code: CodeErrorsEnum.INVALID_DRIVER,
               message: 'Driver not found',
             }),
           ),
