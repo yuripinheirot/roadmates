@@ -1,10 +1,8 @@
-import { customerSeed } from './customer.seed';
-import { driverSeed } from './drivers.seed';
+import { ridersSeed } from './riders.seed';
 
 const main = async () => {
   const totalRegisters = 100;
-  await customerSeed(totalRegisters);
-  await driverSeed(totalRegisters);
+  await ridersSeed(totalRegisters);
 };
 
 main();

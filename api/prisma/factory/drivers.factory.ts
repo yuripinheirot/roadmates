@@ -3,7 +3,7 @@ import { defineDriverFactory } from './generated/fabbrica';
 import { faker } from '@faker-js/faker';
 
 export class DriversFactory extends Factory {
-  async createMany(amountRegisters: number) {
+  static build(amountRegisters: number) {
     const list = Array.from({ length: amountRegisters }, () => ({
       value: BigInt(faker.number.int({ min: 1000, max: 10000 })),
       name: faker.person.fullName(),
@@ -16,6 +16,11 @@ export class DriversFactory extends Factory {
       minDistance: faker.number.int({ min: 1, max: 1000 }),
     }));
 
-    await defineDriverFactory().createList(list);
+    return list;
+  }
+  async createMany(amountRegisters: number) {
+    await defineDriverFactory().createList(
+      DriversFactory.build(amountRegisters),
+    );
   }
 }
