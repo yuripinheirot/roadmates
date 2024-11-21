@@ -10,6 +10,7 @@ import { formatResponseError } from '@/utils/format-response-error.util';
 export class EstimateController {
   constructor(private readonly estimateService: EstimateService) {}
 
+  // TODO: Implement response schema for this endpoint equal documentation
   @Post('estimate')
   async handle(@Body() body: EstimateRequestDto) {
     if (body.origin === body.destination) {
