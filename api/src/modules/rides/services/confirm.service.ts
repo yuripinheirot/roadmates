@@ -1,6 +1,5 @@
 import { GoogleApiService } from '@/providers/google-api/google-api.service';
 import {
-  BadRequestException,
   Injectable,
   NotAcceptableException,
   NotFoundException,
@@ -9,6 +8,7 @@ import { RideRepositoryService } from '../repository/ride-repository.service';
 import { ConfirmRequestDto } from '../dtos/confirm.request.dto';
 import { formatResponseError } from '@/utils/format-response-error.util';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ConfirmService {
@@ -39,12 +39,30 @@ export class ConfirmService {
     }
   }
 
-  async handle(body: ConfirmRequestDto): Promise<any> {
+  formatRidePayload(body: ConfirmRequestDto): Prisma.RideCreateInput {
+    const { customer_id, driver, ...rest } = body;
+    return {
+      ...rest,
+      date: new Date(),
+      customer: {
+        connect: {
+          id: customer_id,
+        },
+      },
+      driver: {
+        connect: {
+          id: driver.id,
+        },
+      },
+    };
+  }
+
+  async handle(body: ConfirmRequestDto) {
     await this.validations(body);
+    await this.rideRepository.createRide(this.formatRidePayload(body));
 
     return {
-      message: 'Ride confirmed successfully',
-      ride: body,
-    } as any;
+      success: true,
+    };
   }
 }

@@ -1,6 +1,6 @@
 import { PrismaService } from '@/services/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { Driver } from '@prisma/client';
+import { Driver, Prisma, Ride } from '@prisma/client';
 
 @Injectable()
 export class RideRepositoryService {
@@ -20,5 +20,9 @@ export class RideRepositoryService {
     return this.prismaService.driver.findUnique({
       where: { id },
     });
+  }
+
+  async createRide(data: Prisma.RideCreateInput): Promise<Ride> {
+    return this.prismaService.ride.create({ data });
   }
 }
