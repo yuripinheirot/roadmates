@@ -95,6 +95,21 @@ describe('[UNIT] [rides/list.service] - [handle()]', () => {
           ),
         );
       });
+
+      test('should return an error if rides not found', async () => {
+        jest.spyOn(rideRepository, 'listRides').mockResolvedValueOnce([]);
+
+        const response = sut.handle(validPayload);
+
+        await expect(response).rejects.toThrow(
+          new NotFoundException(
+            formatResponseError({
+              code: CodeErrorsEnum.NO_RIDES_FOUND,
+              message: 'Rides not found',
+            }),
+          ),
+        );
+      });
     });
     describe('success', () => {
       test('should return success response', async () => {
