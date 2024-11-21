@@ -2,6 +2,8 @@ import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { EstimateService } from '../services/estimate.service';
 import { EstimateRequestDto } from '../dtos/estimate.request.dto';
 import { ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
+import { CodeErrorsEnum } from '@/protocols/code-errors.type';
+import { formatResponseError } from '@/utils/format-response-error.util';
 
 @Controller('rides')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -11,10 +13,12 @@ export class EstimateController {
   @Post('estimate')
   async handle(@Body() body: EstimateRequestDto) {
     if (body.origin === body.destination) {
-      throw new BadRequestException({
-        error_code: 'INVALID_DATA',
-        error_description: 'Origin and destination cannot be the same',
-      });
+      throw new BadRequestException(
+        formatResponseError({
+          code: CodeErrorsEnum.INVALID_DATA,
+          message: 'Origin and destination cannot be the same',
+        }),
+      );
     }
 
     return this.estimateService.handle(body);
