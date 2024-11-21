@@ -42,7 +42,7 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
     rideRepository = module.get<RideRepositoryService>(RideRepositoryService);
 
     jest
-      .spyOn(rideRepository, 'getRidersByMinDistance')
+      .spyOn(rideRepository, 'getDriversByMinDistance')
       .mockResolvedValue(driversMock);
   });
 
@@ -80,10 +80,10 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
         });
       });
 
-      test('should call rideRepository.getRidersByMinDistance()', async () => {
+      test('should call rideRepository.getDriversByMinDistance()', async () => {
         await sut.handle({ origin: 'A', destination: 'B', customerId: '1' });
 
-        expect(rideRepository.getRidersByMinDistance).toHaveBeenCalledWith(
+        expect(rideRepository.getDriversByMinDistance).toHaveBeenCalledWith(
           shorterRouteMock.distanceMeters,
         );
       });

@@ -27,7 +27,7 @@ export class EstimateService {
 
     const shorterRoute = this.takeShorterRoute(calculatedRoute);
 
-    const drivers = await this.rideRepository.getRidersByMinDistance(
+    const drivers = await this.rideRepository.getDriversByMinDistance(
       shorterRoute.distanceMeters,
     );
 
