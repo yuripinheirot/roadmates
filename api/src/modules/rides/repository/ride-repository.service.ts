@@ -6,13 +6,19 @@ import { Driver } from '@prisma/client';
 export class RideRepositoryService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getRidersByMinDistance(minDistance: number): Promise<Driver[]> {
+  async getDriversByMinDistance(minDistance: number): Promise<Driver[]> {
     return this.prismaService.driver.findMany({
       where: {
         minDistance: {
           lte: minDistance,
         },
       },
+    });
+  }
+
+  async findDriverById(id: string): Promise<Driver | null> {
+    return this.prismaService.driver.findUnique({
+      where: { id },
     });
   }
 }
