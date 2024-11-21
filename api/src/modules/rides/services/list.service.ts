@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { RideRepositoryService } from '../repository/ride-repository.service';
 import { ListParamsRequestDto } from '../dtos/list-params.request.dto';
 import { ListQueryRequestDto } from '../dtos/list-query.request.dto';
@@ -28,10 +32,10 @@ export class ListService {
     const driver = await this.rideRepository.findDriverById(dto.driver_id);
 
     if (!driver) {
-      throw new NotFoundException(
+      throw new BadRequestException(
         formatResponseError({
-          code: CodeErrorsEnum.DRIVER_NOT_FOUND,
-          message: 'Driver not found',
+          code: CodeErrorsEnum.INVALID_DRIVER,
+          message: 'Invalid driver',
         }),
       );
     }
