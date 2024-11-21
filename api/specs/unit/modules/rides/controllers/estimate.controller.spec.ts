@@ -3,13 +3,22 @@ import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { buildTestingModule } from '@specs/support/specs.module';
 import { configurePipes } from '@specs/support/configure-pipes';
+import { driversMock } from '@specs/mocks/drivers.mock';
+import { PrismaService } from '@/services/prisma.service';
 
 describe('[UNIT] [rides/estimate.controller] - [estimate()]', () => {
   let app: INestApplication;
   const sut = '/rides/estimate';
 
   beforeAll(async () => {
-    const module: TestingModule = await buildTestingModule().compile();
+    const module: TestingModule = await buildTestingModule()
+      .overrideProvider(PrismaService)
+      .useValue({
+        driver: {
+          findMany: jest.fn().mockResolvedValue(driversMock),
+        },
+      })
+      .compile();
     app = configurePipes(module.createNestApplication());
 
     await app.init();
@@ -33,8 +42,8 @@ describe('[UNIT] [rides/estimate.controller] - [estimate()]', () => {
             'origin should not be empty',
             'destination must be a string',
             'destination should not be empty',
-            'customer_id must be a string',
-            'customer_id should not be empty',
+            'customerId must be a string',
+            'customerId should not be empty',
           ],
           statusCode: 400,
         });
@@ -44,7 +53,7 @@ describe('[UNIT] [rides/estimate.controller] - [estimate()]', () => {
         const response = await request(app.getHttpServer()).post(sut).send({
           origin: 'A',
           destination: 'A',
-          customer_id: '1',
+          customerId: '1',
         });
 
         expect(response.status).toBe(400);
