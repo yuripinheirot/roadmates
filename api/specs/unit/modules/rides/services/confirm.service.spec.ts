@@ -4,7 +4,7 @@ import { ConfirmService } from '@/modules/rides/services/confirm.service';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { GoogleApiService } from '@/providers/google-api/google-api.service';
 import { formatResponseError } from '@/utils/format-response-error.util';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { driversMock } from '@specs/mocks/drivers.mock';
 import { buildTestingModule } from '@specs/support/specs.module';
@@ -44,6 +44,8 @@ describe('[UNIT] [rides/confirm.service] - [handle()]', () => {
     value: 10,
   };
 
+  const validDriver = driversMock[0];
+
   describe('handle()', () => {
     describe('validations', () => {
       test('should return an error if the driver is not found', async () => {
@@ -71,10 +73,29 @@ describe('[UNIT] [rides/confirm.service] - [handle()]', () => {
         );
       });
 
-      describe('success', () => {
-        test('should return the drivers', async () => {
-          expect(true).toBe(true);
+      test('should return an error if the driver does not have the minimum distance', async () => {
+        jest
+          .spyOn(rideRepository, 'findDriverById')
+          .mockResolvedValueOnce(validDriver);
+
+        const response = sut.handle({
+          ...validPayload,
+          distance: 0,
         });
+
+        await expect(response).rejects.toThrow(
+          new BadRequestException(
+            formatResponseError({
+              code: CodeErrorsEnum.INVALID_DATA,
+              message: 'Driver does not have the minimum distance',
+            }),
+          ),
+        );
+      });
+    });
+    describe('success', () => {
+      test('should return the drivers', async () => {
+        expect(true).toBe(true);
       });
     });
   });
