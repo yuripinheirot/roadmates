@@ -1,5 +1,9 @@
 import { GoogleApiService } from '@/providers/google-api/google-api.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { RideRepositoryService } from '../repository/ride-repository.service';
 import { ConfirmRequestDto } from '../dtos/confirm.request.dto';
 import { formatResponseError } from '@/utils/format-response-error.util';
@@ -20,6 +24,15 @@ export class ConfirmService {
         formatResponseError({
           code: CodeErrorsEnum.DRIVER_NOT_FOUND,
           message: 'Driver not found',
+        }),
+      );
+    }
+
+    if (driver.minDistance > body.distance) {
+      throw new BadRequestException(
+        formatResponseError({
+          code: CodeErrorsEnum.INVALID_DATA,
+          message: 'Driver does not have the minimum distance',
         }),
       );
     }
