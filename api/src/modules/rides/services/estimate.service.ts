@@ -4,6 +4,7 @@ import { GoogleApiService } from '@/providers/google-api/google-api.service';
 import { RideRepositoryService } from '../repository/ride-repository.service';
 import { GoogleRouteResponse } from '@/providers/google-api/protocols/google-route-response.type';
 import { GoogleRoute } from '@/providers/google-api/protocols/google-route-response.type';
+import { EstimateResponseDto } from '../dtos/estimate.response.dto';
 
 @Injectable()
 export class EstimateService {
@@ -16,10 +17,12 @@ export class EstimateService {
     return routes.routes.sort((a, b) => a.distanceMeters - b.distanceMeters)[0];
   }
 
-  async handle(body: EstimateRequestDto) {
+  async handle(body: EstimateRequestDto): Promise<EstimateResponseDto> {
+    const { origin, destination } = body;
+
     const calculatedRoute = await this.googleApiService.calculateRoute({
-      origin: body.origin,
-      destination: body.destination,
+      origin,
+      destination,
     });
 
     const shorterRoute = this.takeShorterRoute(calculatedRoute);
@@ -28,6 +31,13 @@ export class EstimateService {
       shorterRoute.distanceMeters,
     );
 
-    return drivers;
+    return {
+      origin: shorterRoute.legs[0].startLocation.latLng,
+      destination: shorterRoute.legs[0].endLocation.latLng,
+      distance: shorterRoute.distanceMeters,
+      duration: shorterRoute.duration,
+      options: drivers,
+      routeResponse: calculatedRoute,
+    };
   }
 }
