@@ -56,7 +56,10 @@ describe('[UNIT] [rides/list.service] - [handle()]', () => {
           customer_id: customerMock[0].id,
         });
 
-        expect(result).toEqual(ridesMock);
+        expect(result).toEqual({
+          customer_id: customerMock[0].id,
+          rides: ridesMock,
+        });
       });
     });
   });
