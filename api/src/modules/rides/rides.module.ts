@@ -6,15 +6,18 @@ import { RideRepositoryService } from './repository/ride-repository.service';
 import { PrismaService } from '@/services/prisma.service';
 import { ConfirmController } from './controllers/confirm.controller';
 import { ConfirmService } from './services/confirm.service';
+import { ListService } from './services/list.service';
+import { ListController } from './controllers/list.controller';
 
 @Module({
-  controllers: [EstimateController, ConfirmController],
+  controllers: [EstimateController, ConfirmController, ListController],
   providers: [
     EstimateService,
     GoogleApiService,
     RideRepositoryService,
     PrismaService,
     ConfirmService,
+    ListService,
   ],
 })
 export class RidesModule {}
