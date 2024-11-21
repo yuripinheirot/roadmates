@@ -8,8 +8,10 @@ import { ConfirmController } from './controllers/confirm.controller';
 import { ConfirmService } from './services/confirm.service';
 import { ListService } from './services/list.service';
 import { ListController } from './controllers/list.controller';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
+  imports: [HttpModule],
   controllers: [EstimateController, ConfirmController, ListController],
   providers: [
     EstimateService,
