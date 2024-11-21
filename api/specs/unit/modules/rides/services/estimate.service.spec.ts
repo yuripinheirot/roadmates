@@ -1,10 +1,32 @@
 import { RideRepositoryService } from '@/modules/rides/repository/ride-repository.service';
 import { EstimateService } from '@/modules/rides/services/estimate.service';
 import { GoogleApiService } from '@/providers/google-api/google-api.service';
+import { GoogleRoute } from '@/providers/google-api/protocols/google-route-response.type';
 import { TestingModule } from '@nestjs/testing';
 import { driversMock } from '@specs/mocks/drivers.mock';
 import { googleApiRouteResponseMock } from '@specs/mocks/google-api-route-response.mock';
 import { buildTestingModule } from '@specs/support/specs.module';
+
+const shorterRouteMock: GoogleRoute = {
+  distanceMeters: 100,
+  duration: '165s',
+  legs: [
+    {
+      startLocation: {
+        latLng: {
+          latitude: 0,
+          longitude: 0,
+        },
+      },
+      endLocation: {
+        latLng: {
+          latitude: 1,
+          longitude: 1,
+        },
+      },
+    },
+  ],
+};
 
 describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
   let sut: EstimateService;
@@ -19,20 +41,14 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
     googleApiService = module.get<GoogleApiService>(GoogleApiService);
     rideRepository = module.get<RideRepositoryService>(RideRepositoryService);
 
-    jest.spyOn(rideRepository, 'getRidersByMinDistance').mockResolvedValue([]);
+    jest
+      .spyOn(rideRepository, 'getRidersByMinDistance')
+      .mockResolvedValue(driversMock);
   });
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
-
-  const shorterRouteMock = {
-    distanceMeters: 100,
-    duration: '165s',
-    polyline: {
-      encodedPolyline: 'ipkcFfichVnP@j@BLoFVwM{E?',
-    },
-  };
 
   describe('takeShorterRoute()', () => {
     describe('validations', () => {
@@ -75,17 +91,20 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
 
     describe('success', () => {
       test('should return the drivers', async () => {
-        jest
-          .spyOn(rideRepository, 'getRidersByMinDistance')
-          .mockResolvedValue(driversMock);
-
         const drivers = await sut.handle({
           origin: 'A',
           destination: 'B',
           customerId: '1',
         });
 
-        expect(drivers).toEqual(driversMock);
+        expect(drivers).toEqual({
+          origin: shorterRouteMock.legs[0].startLocation.latLng,
+          destination: shorterRouteMock.legs[0].endLocation.latLng,
+          distance: shorterRouteMock.distanceMeters,
+          duration: shorterRouteMock.duration,
+          options: driversMock,
+          routeResponse: googleApiRouteResponseMock,
+        });
       });
     });
   });
