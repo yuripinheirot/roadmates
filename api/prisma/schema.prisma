@@ -33,7 +33,7 @@ model Driver {
   description String
   vehicle     String
   review      Json
-  value       BigInt
+  value       Int
   minDistance Int    @map("min_distance")
 
   rides Ride[]
@@ -47,7 +47,7 @@ model Ride {
   destination String
   distance    Int
   duration    String
-  value       BigInt
+  value       Int
   date        DateTime
 
   customer_id String

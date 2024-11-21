@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker';
 export class DriversFactory extends Factory {
   static build(amountRegisters: number) {
     const list = Array.from({ length: amountRegisters }, () => ({
-      value: BigInt(faker.number.int({ min: 1000, max: 10000 })),
+      value: faker.number.int({ min: 1000, max: 10000 }),
       name: faker.person.fullName(),
       description: faker.lorem.sentence(),
       vehicle: faker.vehicle.vehicle(),

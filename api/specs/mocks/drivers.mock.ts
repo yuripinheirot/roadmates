@@ -1,5 +1,4 @@
 import { Driver } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime/library';
 
 export const driversMock: Driver[] = [
   {
@@ -11,7 +10,7 @@ export const driversMock: Driver[] = [
       rating: 5,
       comment: 'Homer Simpson comment',
     },
-    value: new Decimal(5),
+    value: 50,
     minDistance: 100,
   },
   {
@@ -23,7 +22,7 @@ export const driversMock: Driver[] = [
       rating: 2.5,
       comment: 'Dominic Toretto comment',
     },
-    value: new Decimal(10),
+    value: 100,
     minDistance: 300,
   },
   {
@@ -35,7 +34,7 @@ export const driversMock: Driver[] = [
       rating: 4.5,
       comment: 'James Bond comment',
     },
-    value: new Decimal(30),
+    value: 300,
     minDistance: 500,
   },
 ];
