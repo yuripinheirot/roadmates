@@ -7,8 +7,8 @@ import {
 } from 'class-validator';
 
 class DriverDto {
-  @IsNumber()
-  id: number;
+  @IsString()
+  id: string;
 
   @IsString()
   name: string;
