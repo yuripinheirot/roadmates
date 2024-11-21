@@ -7,12 +7,14 @@
     {
       "type": "node",
       "request": "attach",
-      "name": "Launch Program",
+      "name": "Roadmates API Debugger",
       "skipFiles": ["<node_internals>/**"],
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "outFiles": ["${workspaceFolder}/api/dist/**/*.js"],
       "port": 9229,
       "restart": true,
-      "remoteRoot": "/home/node/app"
+      "remoteRoot": "/home/node/app",
+      "cwd": "${workspaceFolder}/api",
+      "localRoot": "${workspaceFolder}/api"
     }
   ]
 }
