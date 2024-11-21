@@ -3,7 +3,6 @@ import { RideRepositoryService } from '@/modules/rides/repository/ride-repositor
 import { ConfirmService } from '@/modules/rides/services/confirm.service';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { formatResponseError } from '@/utils/format-response-error.util';
-import { NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { driversMock } from '@specs/mocks/drivers.mock';
@@ -61,14 +60,13 @@ describe('[UNIT] [rides/confirm.service] - [handle()]', () => {
           },
         });
 
-        await expect(response).rejects.toThrow(
-          new NotFoundException(
-            formatResponseError({
-              code: CodeErrorsEnum.DRIVER_NOT_FOUND,
-              message: 'Driver not found',
-            }),
-          ),
-        );
+        await expect(response).rejects.toMatchObject({
+          response: formatResponseError({
+            code: CodeErrorsEnum.DRIVER_NOT_FOUND,
+            message: 'Driver not found',
+          }),
+          status: 404,
+        });
       });
 
       test('should return an error if the driver does not have the minimum distance', async () => {
@@ -81,14 +79,13 @@ describe('[UNIT] [rides/confirm.service] - [handle()]', () => {
           distance: 0,
         });
 
-        await expect(response).rejects.toThrow(
-          new NotAcceptableException(
-            formatResponseError({
-              code: CodeErrorsEnum.INVALID_DISTANCE,
-              message: 'Driver does not have the minimum distance',
-            }),
-          ),
-        );
+        await expect(response).rejects.toMatchObject({
+          response: formatResponseError({
+            code: CodeErrorsEnum.INVALID_DISTANCE,
+            message: 'Driver does not have the minimum distance',
+          }),
+          status: 406,
+        });
       });
 
       test('should call createRide with success', async () => {

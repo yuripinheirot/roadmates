@@ -2,7 +2,6 @@ import { RideRepositoryService } from '@/modules/rides/repository/ride-repositor
 import { ListService } from '@/modules/rides/services/list.service';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { formatResponseError } from '@/utils/format-response-error.util';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { customerMock } from '@specs/mocks/customer.mock';
 import { driversMock } from '@specs/mocks/drivers.mock';
@@ -69,14 +68,13 @@ describe('[UNIT] [rides/list.service] - [handle()]', () => {
 
         const response = sut.handle(validPayload);
 
-        await expect(response).rejects.toThrow(
-          new BadRequestException(
-            formatResponseError({
-              code: CodeErrorsEnum.INVALID_DRIVER,
-              message: 'Driver not found',
-            }),
-          ),
-        );
+        await expect(response).rejects.toMatchObject({
+          response: formatResponseError({
+            code: CodeErrorsEnum.INVALID_DRIVER,
+            message: 'Invalid driver',
+          }),
+          status: 400,
+        });
       });
 
       test('should return an error if customer does not exist', async () => {
@@ -86,14 +84,13 @@ describe('[UNIT] [rides/list.service] - [handle()]', () => {
 
         const response = sut.handle(validPayload);
 
-        await expect(response).rejects.toThrow(
-          new NotFoundException(
-            formatResponseError({
-              code: CodeErrorsEnum.CUSTOMER_NOT_FOUND,
-              message: 'Customer not found',
-            }),
-          ),
-        );
+        await expect(response).rejects.toMatchObject({
+          response: formatResponseError({
+            code: CodeErrorsEnum.CUSTOMER_NOT_FOUND,
+            message: 'Customer not found',
+          }),
+          status: 404,
+        });
       });
 
       test('should return an error if rides not found', async () => {
@@ -101,14 +98,13 @@ describe('[UNIT] [rides/list.service] - [handle()]', () => {
 
         const response = sut.handle(validPayload);
 
-        await expect(response).rejects.toThrow(
-          new NotFoundException(
-            formatResponseError({
-              code: CodeErrorsEnum.NO_RIDES_FOUND,
-              message: 'Rides not found',
-            }),
-          ),
-        );
+        await expect(response).rejects.toMatchObject({
+          response: formatResponseError({
+            code: CodeErrorsEnum.NO_RIDES_FOUND,
+            message: 'Rides not found',
+          }),
+          status: 404,
+        });
       });
     });
     describe('success', () => {
