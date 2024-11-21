@@ -45,11 +45,11 @@ model Ride {
   value       Decimal
   date        DateTime
 
-  customerId String
-  driverId   String
+  customer_id String
+  driver_id   String
 
-  customer Customer @relation(fields: [customerId], references: [id])
-  driver   Driver   @relation(fields: [driverId], references: [id])
+  customer Customer @relation(fields: [customer_id], references: [id])
+  driver   Driver   @relation(fields: [driver_id], references: [id])
 
   @@map("rides")
 }
