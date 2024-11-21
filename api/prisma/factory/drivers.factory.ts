@@ -18,8 +18,9 @@ export class DriversFactory extends Factory {
 
     return list;
   }
+
   async createMany(amountRegisters: number) {
-    await defineDriverFactory().createList(
+    return defineDriverFactory().createList(
       DriversFactory.build(amountRegisters),
     );
   }

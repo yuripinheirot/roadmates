@@ -8,6 +8,6 @@ export class CustomersFactory extends Factory {
       name: faker.person.fullName(),
     }));
 
-    await defineCustomerFactory().createList(list);
+    return defineCustomerFactory().createList(list);
   }
 }
