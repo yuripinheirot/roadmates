@@ -1,6 +1,8 @@
 import { PrismaService } from '@/services/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { Driver, Prisma, Ride } from '@prisma/client';
+import { ListParamsRequestDto } from '../dtos/list-params.request.dto';
+import { ListQueryRequestDto } from '../dtos/list-query.request.dto';
 
 @Injectable()
 export class RideRepositoryService {
@@ -24,5 +26,19 @@ export class RideRepositoryService {
 
   async createRide(data: Prisma.RideCreateInput): Promise<Ride> {
     return this.prismaService.ride.create({ data });
+  }
+
+  async listRides(
+    data: ListParamsRequestDto & ListQueryRequestDto,
+  ): Promise<Ride[]> {
+    return this.prismaService.ride.findMany({
+      where: {
+        customer_id: data.customer_id,
+        driver_id: data.driver_id,
+      },
+      orderBy: {
+        date: 'desc',
+      },
+    });
   }
 }

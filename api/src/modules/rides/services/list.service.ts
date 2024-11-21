@@ -8,6 +8,6 @@ export class ListService {
   constructor(private readonly rideRepository: RideRepositoryService) {}
 
   async handle(dto: ListParamsRequestDto & ListQueryRequestDto) {
-    return dto;
+    return this.rideRepository.listRides(dto);
   }
 }
