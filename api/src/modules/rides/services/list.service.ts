@@ -8,6 +8,11 @@ export class ListService {
   constructor(private readonly rideRepository: RideRepositoryService) {}
 
   async handle(dto: ListParamsRequestDto & ListQueryRequestDto) {
-    return this.rideRepository.listRides(dto);
+    const rides = await this.rideRepository.listRides(dto);
+
+    return {
+      customer_id: dto.customer_id,
+      rides,
+    };
   }
 }
