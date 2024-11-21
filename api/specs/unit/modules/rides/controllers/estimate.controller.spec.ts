@@ -29,7 +29,7 @@ describe('[UNIT] [rides/estimate.controller] - [estimate()]', () => {
     app = undefined;
   });
 
-  describe('estimate()', () => {
+  describe('handle()', () => {
     describe('validations', () => {
       test('should validate all required params', async () => {
         const response = await request(app.getHttpServer()).post(sut);
