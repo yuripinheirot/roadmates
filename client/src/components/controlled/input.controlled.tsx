@@ -7,6 +7,7 @@ type Props = {
   name: string
   required?: boolean
   error?: FieldError
+  label?: string
 } & React.ComponentProps<'input'>
 
 export const InputControlled = ({
@@ -14,11 +15,13 @@ export const InputControlled = ({
   name,
   required,
   error,
+  label,
   ...props
 }: Props) => {
   return (
     <div className='flex flex-col gap-2'>
       <Input
+        label={label}
         {...register(name, { required })}
         {...props}
       />

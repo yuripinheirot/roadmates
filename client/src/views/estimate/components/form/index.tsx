@@ -25,18 +25,21 @@ export const EstimateForm = ({
       className='flex flex-col gap-4'
     >
       <InputControlled
+        label='Usuário'
         register={register}
         name='customer_id'
         required
         error={errors.customer_id}
       />
       <InputControlled
+        label='Origem'
         register={register}
         name='origin'
         required
         error={errors.origin}
       />
       <InputControlled
+        label='Destino'
         register={register}
         name='destination'
         required
