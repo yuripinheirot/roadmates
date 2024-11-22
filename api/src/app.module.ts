@@ -8,6 +8,7 @@ import { CacheModule, CacheStore } from '@nestjs/cache-manager';
 import type { RedisClientOptions } from 'redis';
 import { redisStore } from 'cache-manager-redis-store';
 import { appConfig } from '@/constants/app-config';
+import { CustomersModule } from './modules/customers/customers.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,6 +47,7 @@ import { appConfig } from '@/constants/app-config';
     }),
     StatusModule,
     RidesModule,
+    CustomersModule,
   ],
   controllers: [],
   providers: [],
