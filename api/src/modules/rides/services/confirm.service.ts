@@ -13,7 +13,7 @@ import { Prisma } from '@prisma/client';
 export class ConfirmService {
   constructor(private readonly rideRepository: RideRepositoryService) {}
 
-  async validations(body: ConfirmRequestDto): Promise<void> {
+  async validateDriver(body: ConfirmRequestDto): Promise<void> {
     const driver = await this.rideRepository.findDriverById(body.driver.id);
 
     if (!driver) {
@@ -33,6 +33,24 @@ export class ConfirmService {
         }),
       );
     }
+  }
+
+  async validateCustomer(customerId: string): Promise<void> {
+    const customer = await this.rideRepository.findCustomerById(customerId);
+
+    if (!customer) {
+      throw new NotFoundException(
+        formatResponseError({
+          code: CodeErrorsEnum.CUSTOMER_NOT_FOUND,
+          message: 'Customer not found',
+        }),
+      );
+    }
+  }
+
+  async validations(body: ConfirmRequestDto): Promise<void> {
+    await this.validateDriver(body);
+    await this.validateCustomer(body.customer_id);
   }
 
   formatRidePayload(body: ConfirmRequestDto): Prisma.RideCreateInput {
