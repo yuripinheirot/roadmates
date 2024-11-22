@@ -4,17 +4,15 @@ import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form'
 import { EstimateFormSchema, EstimateFormSchemaType } from './schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CustomerModel } from '@/models/customer.model'
-import { SelectControlled } from '../customer-select'
+import { SelectControlled } from '@/components/controlled/select.controlled'
+import { customerController } from '@/api/controllers/customers/customer.controller'
+import { useQuery } from '@tanstack/react-query'
 
 type EstimateFormProps = {
   onSubmit: SubmitHandler<EstimateFormSchemaType>
-  data: {
-    customers: CustomerModel[]
-  }
 }
 
-export const EstimateForm = ({ onSubmit, data }: EstimateFormProps) => {
+export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
   const {
     register,
     handleSubmit,
@@ -24,6 +22,11 @@ export const EstimateForm = ({ onSubmit, data }: EstimateFormProps) => {
     resolver: zodResolver(EstimateFormSchema),
   })
 
+  const { data: customers, isLoading: isLoadingCustomers } = useQuery({
+    queryKey: ['customers'],
+    queryFn: () => customerController.findAll(),
+  })
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -31,10 +34,11 @@ export const EstimateForm = ({ onSubmit, data }: EstimateFormProps) => {
     >
       <SelectControlled
         label='Cliente'
-        data={data.customers}
+        data={customers || []}
         control={control}
         name='customer_id'
         placeholder='Selecione um cliente'
+        isLoading={isLoadingCustomers}
       />
       <InputControlled
         label='Origem'
