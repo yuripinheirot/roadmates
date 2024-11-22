@@ -29,7 +29,7 @@ services:
     ports:
       - 3003:3003
       - 9229:9229
-    command: ash -c "yarn install && yarn dev"
+    command: ash -c "yarn install && yarn prisma generate && yarn dev"
     depends_on:
       - postgres
 
