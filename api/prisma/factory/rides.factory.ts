@@ -13,7 +13,7 @@ export class RidesFactory extends Factory {
     const list: Partial<Prisma.RideCreateInput>[] = Array.from(
       { length: amountRegisters },
       () => ({
-        value: faker.number.int({ min: 1000, max: 10000 }),
+        value: faker.number.int({ min: 1000, max: 1000000 }),
         customer: {
           connect: {
             id: customers[
