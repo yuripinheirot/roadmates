@@ -37,16 +37,9 @@ describe('[UNIT] [rides/estimate.controller] - [estimate()]', () => {
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({
-          error: 'Bad Request',
-          message: [
-            'origin must be a string',
-            'origin should not be empty',
-            'destination must be a string',
-            'destination should not be empty',
-            'customer_id must be a UUID',
-            'customer_id should not be empty',
-          ],
-          statusCode: 400,
+          error_code: 'INVALID_DATA',
+          error_description:
+            'origin must be a string, origin should not be empty, destination must be a string, destination should not be empty, customer_id must be a UUID, customer_id should not be empty',
         });
       });
 

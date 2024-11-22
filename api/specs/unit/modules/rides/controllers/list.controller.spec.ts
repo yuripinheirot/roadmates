@@ -48,9 +48,8 @@ describe('[UNIT] [rides/list.controller] - [list()]', () => {
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({
-          error: 'Bad Request',
-          message: ['customer_id must be a UUID'],
-          statusCode: 400,
+          error_code: 'INVALID_DATA',
+          error_description: 'customer_id must be a UUID',
         });
       });
 
@@ -63,9 +62,8 @@ describe('[UNIT] [rides/list.controller] - [list()]', () => {
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({
-          error: 'Bad Request',
-          message: ['driver_id must be a UUID'],
-          statusCode: 400,
+          error_code: 'INVALID_DATA',
+          error_description: 'driver_id must be a UUID',
         });
       });
     });
