@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class EstimateRequestDto {
   @IsNotEmpty()
@@ -10,6 +10,6 @@ export class EstimateRequestDto {
   destination: string;
 
   @IsNotEmpty()
-  @IsString()
-  customerId: string;
+  @IsUUID()
+  customer_id: string;
 }
