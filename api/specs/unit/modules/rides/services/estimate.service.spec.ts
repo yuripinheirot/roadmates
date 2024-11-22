@@ -1,7 +1,10 @@
 import { RideRepositoryService } from '@/modules/rides/repository/ride-repository.service';
 import { EstimateService } from '@/modules/rides/services/estimate.service';
+import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { GoogleCalculateRouteService } from '@/providers/google-api/google-calculate-route.service';
 import { GoogleRoute } from '@/providers/google-api/protocols/google-route-response.type';
+import { formatResponseError } from '@/utils/format-response-error.util';
+import { NotFoundException } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import { customerMock } from '@specs/mocks/customer.mock';
 import { driversMock } from '@specs/mocks/drivers.mock';
@@ -38,11 +41,15 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
     const module: TestingModule = await buildTestingModule().compile();
 
     sut = module.get<EstimateService>(EstimateService);
+    rideRepository = module.get<RideRepositoryService>(RideRepositoryService);
 
     googleApiService = module.get<GoogleCalculateRouteService>(
       GoogleCalculateRouteService,
     );
-    rideRepository = module.get<RideRepositoryService>(RideRepositoryService);
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
 
     jest
       .spyOn(rideRepository, 'getDriversByMinDistance')
@@ -51,10 +58,10 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
     jest
       .spyOn(rideRepository, 'findCustomerById')
       .mockResolvedValue(customerMock[0]);
-  });
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+    jest
+      .spyOn(googleApiService, 'handle')
+      .mockResolvedValue(googleApiRouteResponseMock);
   });
 
   describe('takeShorterRoute()', () => {
@@ -69,15 +76,8 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
 
   describe('handle()', () => {
     describe('validations', () => {
-      test('should call googleApiService.calculateRoute()', async () => {
-        const googleApiServiceSpy = jest.spyOn(
-          googleApiService,
-          'calculateRoute',
-        );
-
-        jest
-          .spyOn(googleApiService, 'calculateRoute')
-          .mockResolvedValue(googleApiRouteResponseMock);
+      test('should call googleApiService.handle()', async () => {
+        const googleApiServiceSpy = jest.spyOn(googleApiService, 'handle');
 
         await sut.handle({ origin: 'A', destination: 'B', customer_id: '1' });
 
@@ -92,6 +92,25 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
 
         expect(rideRepository.getDriversByMinDistance).toHaveBeenCalledWith(
           shorterRouteMock.distanceMeters,
+        );
+      });
+
+      test('should throw a NotFoundException if no route is found', async () => {
+        jest.spyOn(sut, 'takeShorterRoute').mockReturnValueOnce(null);
+
+        const response = sut.handle({
+          origin: 'A',
+          destination: 'B',
+          customer_id: '1',
+        });
+
+        await expect(response).rejects.toMatchObject(
+          new NotFoundException(
+            formatResponseError({
+              code: CodeErrorsEnum.INVALID_DATA,
+              message: 'Cannot find a route, please try again',
+            }),
+          ),
         );
       });
     });
