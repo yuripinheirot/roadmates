@@ -3,6 +3,7 @@ import { EstimateService } from '@/modules/rides/services/estimate.service';
 import { GoogleApiService } from '@/providers/google-api/google-api.service';
 import { GoogleRoute } from '@/providers/google-api/protocols/google-route-response.type';
 import { TestingModule } from '@nestjs/testing';
+import { customerMock } from '@specs/mocks/customer.mock';
 import { driversMock } from '@specs/mocks/drivers.mock';
 import { googleApiRouteResponseMock } from '@specs/mocks/google-api-route-response.mock';
 import { buildTestingModule } from '@specs/support/specs.module';
@@ -44,6 +45,10 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
     jest
       .spyOn(rideRepository, 'getDriversByMinDistance')
       .mockResolvedValue(driversMock);
+
+    jest
+      .spyOn(rideRepository, 'findCustomerById')
+      .mockResolvedValue(customerMock[0]);
   });
 
   beforeEach(() => {
@@ -72,7 +77,7 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
           .spyOn(googleApiService, 'calculateRoute')
           .mockResolvedValue(googleApiRouteResponseMock);
 
-        await sut.handle({ origin: 'A', destination: 'B', customerId: '1' });
+        await sut.handle({ origin: 'A', destination: 'B', customer_id: '1' });
 
         expect(googleApiServiceSpy).toHaveBeenCalledWith({
           origin: 'A',
@@ -81,7 +86,7 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
       });
 
       test('should call rideRepository.getDriversByMinDistance()', async () => {
-        await sut.handle({ origin: 'A', destination: 'B', customerId: '1' });
+        await sut.handle({ origin: 'A', destination: 'B', customer_id: '1' });
 
         expect(rideRepository.getDriversByMinDistance).toHaveBeenCalledWith(
           shorterRouteMock.distanceMeters,
@@ -94,7 +99,7 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
         const drivers = await sut.handle({
           origin: 'A',
           destination: 'B',
-          customerId: '1',
+          customer_id: '1',
         });
 
         expect(drivers).toEqual({
