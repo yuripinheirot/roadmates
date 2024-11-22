@@ -5,6 +5,7 @@ import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { formatResponseError } from '@/utils/format-response-error.util';
 import { TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
+import { customerMock } from '@specs/mocks/customer.mock';
 import { driversMock } from '@specs/mocks/drivers.mock';
 import { buildTestingModule } from '@specs/support/specs.module';
 
@@ -18,14 +19,22 @@ describe('[UNIT] [rides/confirm.service] - [handle()]', () => {
     sut = module.get<ConfirmService>(ConfirmService);
 
     rideRepository = module.get<RideRepositoryService>(RideRepositoryService);
-
-    jest
-      .spyOn(rideRepository, 'getDriversByMinDistance')
-      .mockResolvedValue(driversMock);
   });
 
   beforeEach(() => {
     jest.clearAllMocks();
+
+    jest
+      .spyOn(rideRepository, 'getDriversByMinDistance')
+      .mockResolvedValue(driversMock);
+
+    jest
+      .spyOn(rideRepository, 'findCustomerById')
+      .mockResolvedValue(customerMock[0]);
+
+    jest
+      .spyOn(rideRepository, 'findDriverById')
+      .mockResolvedValue(driversMock[0]);
   });
 
   const validPayload: ConfirmRequestDto = {
@@ -66,6 +75,24 @@ describe('[UNIT] [rides/confirm.service] - [handle()]', () => {
             message: 'Driver not found',
           }),
           status: 404,
+        });
+      });
+
+      test('should return an error if the customer is not found', async () => {
+        jest
+          .spyOn(rideRepository, 'findCustomerById')
+          .mockResolvedValueOnce(null);
+
+        const response = sut.handle({
+          ...validPayload,
+          customer_id: 'invalid-customer-id',
+        });
+
+        await expect(response).rejects.toMatchObject({
+          response: formatResponseError({
+            code: CodeErrorsEnum.CUSTOMER_NOT_FOUND,
+            message: 'Customer not found',
+          }),
         });
       });
 

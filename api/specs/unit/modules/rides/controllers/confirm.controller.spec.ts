@@ -41,24 +41,9 @@ describe('[UNIT] [rides/confirm.controller] - [handle()]', () => {
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({
-          error: 'Bad Request',
-          message: [
-            'customer_id should not be empty',
-            'customer_id must be a string',
-            'origin should not be empty',
-            'origin must be a string',
-            'destination should not be empty',
-            'destination must be a string',
-            'distance should not be empty',
-            'distance must be a number conforming to the specified constraints',
-            'duration should not be empty',
-            'duration must be a string',
-            'driver.id must be a string',
-            'driver.name must be a string',
-            'value should not be empty',
-            'value must be a number conforming to the specified constraints',
-          ],
-          statusCode: 400,
+          error_code: 'INVALID_DATA',
+          error_description:
+            'customer_id should not be empty, customer_id must be a string, origin should not be empty, origin must be a string, destination should not be empty, destination must be a string, distance should not be empty, distance must be a number conforming to the specified constraints, duration should not be empty, duration must be a string, driver.id must be a string, driver.name must be a string, value should not be empty, value must be a number conforming to the specified constraints',
         });
       });
 
