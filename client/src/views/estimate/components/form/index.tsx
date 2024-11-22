@@ -1,24 +1,23 @@
 import { InputControlled } from '@/components/controlled/input.controlled'
 import { Button } from '@/components/ui/button'
-import { UseFormRegister } from 'react-hook-form'
-import { UseFormHandleSubmit } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form'
-import { FieldErrors } from 'react-hook-form'
-import { EstimateFormSchemaType } from './schema'
+import { EstimateFormSchema, EstimateFormSchemaType } from './schema'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type EstimateFormProps = {
-  register: UseFormRegister<EstimateFormSchemaType>
-  handleSubmit: UseFormHandleSubmit<EstimateFormSchemaType>
-  errors: FieldErrors<EstimateFormSchemaType>
   onSubmit: SubmitHandler<EstimateFormSchemaType>
 }
 
-export const EstimateForm = ({
-  register,
-  handleSubmit,
-  errors,
-  onSubmit,
-}: EstimateFormProps) => {
+export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<EstimateFormSchemaType>({
+    resolver: zodResolver(EstimateFormSchema),
+  })
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
