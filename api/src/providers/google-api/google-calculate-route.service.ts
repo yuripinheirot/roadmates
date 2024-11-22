@@ -4,7 +4,7 @@ import { GoogleRouteResponse } from './protocols/google-route-response.type';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { CACHE_MANAGER, CacheInterceptor, Cache } from '@nestjs/cache-manager';
-import { appConfig } from 'app-config';
+import { appConfig } from '@/constants/app-config';
 
 @Injectable()
 @UseInterceptors(CacheInterceptor)

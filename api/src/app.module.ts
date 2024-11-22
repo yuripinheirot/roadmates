@@ -7,8 +7,7 @@ import { RidesModule } from './modules/rides/rides.module';
 import { CacheModule, CacheStore } from '@nestjs/cache-manager';
 import type { RedisClientOptions } from 'redis';
 import { redisStore } from 'cache-manager-redis-store';
-import { appConfig } from 'app-config';
-
+import { appConfig } from '@/constants/app-config';
 @Module({
   imports: [
     ConfigModule.forRoot({

@@ -1,6 +1,6 @@
 import { RideRepositoryService } from '@/modules/rides/repository/ride-repository.service';
 import { EstimateService } from '@/modules/rides/services/estimate.service';
-import { GoogleApiService } from '@/providers/google-api/google-api.service';
+import { GoogleCalculateRouteService } from '@/providers/google-api/google-calculate-route.service';
 import { GoogleRoute } from '@/providers/google-api/protocols/google-route-response.type';
 import { TestingModule } from '@nestjs/testing';
 import { customerMock } from '@specs/mocks/customer.mock';
@@ -31,7 +31,7 @@ const shorterRouteMock: GoogleRoute = {
 
 describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
   let sut: EstimateService;
-  let googleApiService: GoogleApiService;
+  let googleApiService: GoogleCalculateRouteService;
   let rideRepository: RideRepositoryService;
 
   beforeAll(async () => {
@@ -39,7 +39,9 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
 
     sut = module.get<EstimateService>(EstimateService);
 
-    googleApiService = module.get<GoogleApiService>(GoogleApiService);
+    googleApiService = module.get<GoogleCalculateRouteService>(
+      GoogleCalculateRouteService,
+    );
     rideRepository = module.get<RideRepositoryService>(RideRepositoryService);
 
     jest
