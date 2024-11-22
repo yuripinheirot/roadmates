@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { CustomerModel } from '@/models/customer.model'
-import { Control, UseFormRegister } from 'react-hook-form'
+import { Control } from 'react-hook-form'
 import { LabelInput } from '@/components/ui/label-input'
 import { FormField, FormItem } from '@/components/ui/form'
 
@@ -16,6 +16,7 @@ type SelectControlledProps = {
   label?: string
   name: string
   placeholder?: string
+  isLoading?: boolean
 }
 
 export const SelectControlled = ({
@@ -24,6 +25,7 @@ export const SelectControlled = ({
   label,
   name,
   placeholder,
+  isLoading,
 }: SelectControlledProps) => {
   const renderOptions = () => {
     return data.map((customer) => (
@@ -52,7 +54,10 @@ export const SelectControlled = ({
             onValueChange={field.onChange}
             defaultValue={field.value}
           >
-            <SelectTrigger>
+            <SelectTrigger
+              className='flex items-center gap-2'
+              isLoading={isLoading}
+            >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>{renderOptions()}</SelectContent>
