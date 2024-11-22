@@ -17,7 +17,6 @@ import { ClassValidatorExceptionFilter } from '@/exceptions/class-validator.exce
 export class EstimateController {
   constructor(private readonly estimateService: EstimateService) {}
 
-  // TODO: Implement response schema for this endpoint equal documentation
   @Post('estimate')
   @UseFilters(new ClassValidatorExceptionFilter())
   async handle(@Body() body: EstimateRequestDto) {
