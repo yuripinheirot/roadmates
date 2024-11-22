@@ -4,11 +4,25 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { PrettyOptions } from 'pino-pretty';
 import { RidesModule } from './modules/rides/rides.module';
+import { CacheModule, CacheStore } from '@nestjs/cache-manager';
+import type { RedisClientOptions } from 'redis';
+import { redisStore } from 'cache-manager-redis-store';
+import { appConfig } from 'app-config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    CacheModule.register<RedisClientOptions>({
+      ttl: appConfig.ttlCacheInMs,
+      max: 3,
+      isGlobal: true,
+      store: redisStore as unknown as CacheStore,
+      socket: {
+        port: 6379,
+        host: 'redis',
+      },
     }),
     LoggerModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
