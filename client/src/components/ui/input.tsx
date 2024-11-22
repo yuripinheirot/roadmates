@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import { LabelInput } from '@/components/ui/label-input'
 import { cn } from '@/lib/utils'
 
 type Props = React.ComponentProps<'input'> & {
@@ -10,9 +10,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
   ({ className, type, label, ...props }, ref) => {
     return (
       <div className='flex flex-col'>
-        {label && (
-          <label className='text-sm font-medium text-gray-700'>{label}</label>
-        )}
+        {label && <LabelInput label={label} />}
         <input
           type={type}
           className={cn(

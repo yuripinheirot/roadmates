@@ -4,12 +4,17 @@ import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form'
 import { EstimateFormSchema, EstimateFormSchemaType } from './schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { CustomerModel } from '@/models/customer.model'
+import { CustomerSelect } from '../customer-select'
 
 type EstimateFormProps = {
   onSubmit: SubmitHandler<EstimateFormSchemaType>
+  data: {
+    customers: CustomerModel[]
+  }
 }
 
-export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
+export const EstimateForm = ({ onSubmit, data }: EstimateFormProps) => {
   const {
     register,
     handleSubmit,
@@ -23,12 +28,10 @@ export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
       onSubmit={handleSubmit(onSubmit)}
       className='flex flex-col gap-4'
     >
-      <InputControlled
-        label='Usuário'
+      <CustomerSelect
+        label='Cliente'
+        data={data.customers}
         register={register}
-        name='customer_id'
-        required
-        error={errors.customer_id}
       />
       <InputControlled
         label='Origem'
@@ -44,6 +47,7 @@ export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
         required
         error={errors.destination}
       />
+
       <Button type='submit'>confirm</Button>
     </form>
   )

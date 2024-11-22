@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { customerController } from '@/api/controllers/customers/customer.controller'
 
 export const EstimateView = () => {
-  const { data: customers } = useQuery({
+  const { data: customers, isLoading: isLoadingCustomers } = useQuery({
     queryKey: ['customers'],
     queryFn: () => customerController.findAll(),
   })
@@ -16,7 +16,10 @@ export const EstimateView = () => {
 
   return (
     <div>
-      <EstimateForm onSubmit={onSubmit} />
+      <EstimateForm
+        onSubmit={onSubmit}
+        data={{ customers: customers || [] }}
+      />
     </div>
   )
 }
