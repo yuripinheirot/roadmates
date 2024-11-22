@@ -5,8 +5,15 @@ import {
   EstimateFormSchema,
 } from './components/form/schema'
 import { EstimateForm } from './components/form'
+import { useQuery } from '@tanstack/react-query'
+import { customerController } from '@/api/controllers/customers/customer.controller'
 
 export const EstimateView = () => {
+  const { data: customers } = useQuery({
+    queryKey: ['customers'],
+    queryFn: () => customerController.findAll(),
+  })
+
   const {
     register,
     handleSubmit,
