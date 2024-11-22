@@ -25,7 +25,7 @@ export class ClassValidatorExceptionFilter implements ExceptionFilter {
         validationErrors.message,
       );
 
-      response.status(status).json(formattedErrors);
+      return response.status(status).json(formattedErrors);
     }
 
     return response.status(status).json(exception.getResponse());
@@ -46,7 +46,7 @@ export class ClassValidatorExceptionFilter implements ExceptionFilter {
   private formatValidationErrors(messages: string[]) {
     return {
       error_code: CodeErrorsEnum.INVALID_DATA,
-      error_description: messages,
+      error_description: messages.join(', '),
     };
   }
 }
