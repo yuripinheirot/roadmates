@@ -1,15 +1,9 @@
-import { SubmitHandler } from 'react-hook-form'
-import { EstimateFormSchemaType } from './components/form/schema'
-import { EstimateForm } from './components/form'
+import { PreviewMapStep } from './components/steps/preview-map.step'
 
 export const EstimateView = () => {
-  const onSubmit: SubmitHandler<EstimateFormSchemaType> = (data) => {
-    console.log(data)
-  }
-
   return (
     <div>
-      <EstimateForm onSubmit={onSubmit} />
+      <PreviewMapStep />
     </div>
   )
 }
