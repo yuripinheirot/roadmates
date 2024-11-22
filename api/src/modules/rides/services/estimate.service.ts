@@ -29,7 +29,9 @@ export class EstimateService {
   }
 
   takeShorterRoute(routes: GoogleRouteResponse): GoogleRoute {
-    return routes.routes.sort((a, b) => a.distanceMeters - b.distanceMeters)[0];
+    return routes.routes?.sort(
+      (a, b) => a.distanceMeters - b.distanceMeters,
+    )[0];
   }
 
   async handle(body: EstimateRequestDto): Promise<EstimateResponseDto> {
@@ -43,6 +45,15 @@ export class EstimateService {
     });
 
     const shorterRoute = this.takeShorterRoute(calculatedRoute);
+
+    if (!shorterRoute) {
+      throw new NotFoundException(
+        formatResponseError({
+          code: CodeErrorsEnum.INVALID_DATA,
+          message: 'Cannot find a route, please try again',
+        }),
+      );
+    }
 
     const drivers = await this.rideRepository.getDriversByMinDistance(
       shorterRoute.distanceMeters,
