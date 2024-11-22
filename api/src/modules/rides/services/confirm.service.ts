@@ -68,6 +68,7 @@ export class ConfirmService {
           id: driver.id,
         },
       },
+      value: body.value * 100,
     };
   }
 
