@@ -1,17 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EstimateRequestDto } from '../dtos/estimate.request.dto';
-import { GoogleApiService } from '@/providers/google-api/google-api.service';
 import { RideRepositoryService } from '../repository/ride-repository.service';
 import { GoogleRouteResponse } from '@/providers/google-api/protocols/google-route-response.type';
 import { GoogleRoute } from '@/providers/google-api/protocols/google-route-response.type';
 import { EstimateResponseDto } from '../dtos/estimate.response.dto';
 import { formatResponseError } from '@/utils/format-response-error.util';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
+import { GoogleCalculateRouteService } from '@/providers/google-api/google-calculate-route.service';
 
 @Injectable()
 export class EstimateService {
   constructor(
-    private readonly googleApiService: GoogleApiService,
+    private readonly googleCalculateRouteService: GoogleCalculateRouteService,
     private readonly rideRepository: RideRepositoryService,
   ) {}
 
@@ -37,7 +37,7 @@ export class EstimateService {
 
     await this.validateCustomer(customer_id);
 
-    const calculatedRoute = await this.googleApiService.calculateRoute({
+    const calculatedRoute = await this.googleCalculateRouteService.handle({
       origin,
       destination,
     });
