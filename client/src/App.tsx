@@ -1,11 +1,12 @@
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
+import { MainLayout } from './layouts/main.layout'
 
 export const App = () => {
   return (
-    <div>
+    <MainLayout>
       <Button>Hello World</Button>
       <Typography>Hello World</Typography>
-    </div>
+    </MainLayout>
   )
 }
