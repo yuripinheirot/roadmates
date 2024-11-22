@@ -6,21 +6,25 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { CustomerModel } from '@/models/customer.model'
-import { UseFormRegister } from 'react-hook-form'
-import { EstimateFormSchemaType } from './form/schema'
+import { Control, UseFormRegister } from 'react-hook-form'
 import { LabelInput } from '@/components/ui/label-input'
+import { FormField, FormItem } from '@/components/ui/form'
 
-type CustomerSelectProps = {
+type SelectControlledProps = {
   data: CustomerModel[]
-  register: UseFormRegister<EstimateFormSchemaType>
+  control: Control<any>
   label?: string
+  name: string
+  placeholder?: string
 }
 
-export const CustomerSelect = ({
+export const SelectControlled = ({
   data,
-  register,
+  control,
   label,
-}: CustomerSelectProps) => {
+  name,
+  placeholder,
+}: SelectControlledProps) => {
   const renderOptions = () => {
     return data.map((customer) => (
       <SelectItem
@@ -33,14 +37,28 @@ export const CustomerSelect = ({
   }
 
   return (
-    <div className='flex flex-col '>
-      {label && <LabelInput label={label} />}
-      <Select {...register('customer_id', { required: true })}>
-        <SelectTrigger>
-          <SelectValue placeholder='Selecione um cliente' />
-        </SelectTrigger>
-        <SelectContent>{renderOptions()}</SelectContent>
-      </Select>
-    </div>
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className='flex flex-col'>
+          {label && (
+            <LabelInput
+              label={label}
+              className='-mb-2'
+            />
+          )}
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={field.value}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
+            <SelectContent>{renderOptions()}</SelectContent>
+          </Select>
+        </FormItem>
+      )}
+    />
   )
 }
