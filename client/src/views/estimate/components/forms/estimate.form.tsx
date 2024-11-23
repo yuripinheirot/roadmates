@@ -1,15 +1,13 @@
 import { InputControlled } from '@/components/controlled/input.controlled'
 import { Button } from '@/components/ui/button'
-import { useForm } from 'react-hook-form'
+import { FieldError, FieldValues, useFormContext } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form'
-import { EstimateFormSchema, EstimateFormSchemaType } from './schema'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { SelectControlled } from '@/components/controlled/select.controlled'
 import { customerController } from '@/api/controllers/customers/customer.controller'
 import { useQuery } from '@tanstack/react-query'
 
 type EstimateFormProps = {
-  onSubmit: SubmitHandler<EstimateFormSchemaType>
+  onSubmit: SubmitHandler<FieldValues>
   isLoading: boolean
 }
 
@@ -19,9 +17,7 @@ export const EstimateForm = ({ onSubmit, isLoading }: EstimateFormProps) => {
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm<EstimateFormSchemaType>({
-    resolver: zodResolver(EstimateFormSchema),
-  })
+  } = useFormContext()
 
   const { data: customers, isLoading: isLoadingCustomers } = useQuery({
     queryKey: ['customers'],
@@ -40,21 +36,21 @@ export const EstimateForm = ({ onSubmit, isLoading }: EstimateFormProps) => {
         name='customer_id'
         placeholder='Selecione um cliente'
         isLoading={isLoadingCustomers}
-        error={errors.customer_id}
+        error={errors.customer_id as FieldError}
       />
       <InputControlled
         label='Origem'
         register={register}
         name='origin'
         required
-        error={errors.origin}
+        error={errors.origin as FieldError}
       />
       <InputControlled
         label='Destino'
         register={register}
         name='destination'
         required
-        error={errors.destination}
+        error={errors.destination as FieldError}
       />
 
       <Button

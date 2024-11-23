@@ -3,9 +3,16 @@ import { EstimateStep } from './components/steps/estimate.step'
 import { RideConfirmedStep } from './components/steps/ride-confirmed.step'
 import { Steps } from './types'
 import { BottomButtons } from './components/botton-buttons'
-
+import { FormProvider, useForm } from 'react-hook-form'
+import { EstimateFormSchemaType } from './components/forms/schema'
+import { EstimateFormSchema } from './components/forms/schema'
+import { zodResolver } from '@hookform/resolvers/zod'
 export const EstimateView = () => {
   const [currentStep, setCurrentStep] = useState(0)
+
+  const formMethods = useForm<EstimateFormSchemaType>({
+    resolver: zodResolver(EstimateFormSchema),
+  })
 
   const steps = [
     {
@@ -21,6 +28,10 @@ export const EstimateView = () => {
   ]
 
   const handleContinue = () => {
+    if (!formMethods.formState.isValid) {
+      formMethods.trigger()
+      return
+    }
     setCurrentStep(currentStep + 1)
   }
 
@@ -29,14 +40,16 @@ export const EstimateView = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
-      <div>{steps[currentStep].component}</div>
-      <BottomButtons
-        onBack={handleBack}
-        onContinue={handleContinue}
-        showBack={currentStep !== 0}
-        showContinue={currentStep !== steps.length - 1}
-      />
-    </div>
+    <FormProvider {...formMethods}>
+      <section className='flex flex-col gap-4'>
+        <div>{steps[currentStep].component}</div>
+        <BottomButtons
+          onBack={handleBack}
+          onContinue={handleContinue}
+          showBack={currentStep !== 0}
+          showContinue={currentStep !== steps.length - 1}
+        />
+      </section>
+    </FormProvider>
   )
 }

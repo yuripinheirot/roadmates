@@ -1,5 +1,8 @@
-import { SubmitHandler } from 'node_modules/react-hook-form/dist/types'
-import { EstimateForm } from '../forms/estimate'
+import {
+  FieldValues,
+  SubmitHandler,
+} from 'node_modules/react-hook-form/dist/types'
+import { EstimateForm } from '../forms/estimate.form'
 import { EstimateFormSchemaType } from '../forms/schema'
 import { GoogleMapPreview } from '../../google-map-preview'
 import { useMutation } from '@tanstack/react-query'
@@ -15,8 +18,8 @@ export const EstimateStep = () => {
       ridesController.estimate(data),
   })
 
-  const onSubmit: SubmitHandler<EstimateFormSchemaType> = async (data) => {
-    await estimateRoute(data)
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    await estimateRoute(data as EstimateFormSchemaType)
   }
 
   return (
