@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { CustomerModel } from '@/models/customer.model'
+import { CustomerModel } from '@/domain/models/customer.model'
 import { Control, FieldError } from 'react-hook-form'
 import { LabelInput } from '@/components/ui/label-input'
 import { FormField, FormItem } from '@/components/ui/form'
