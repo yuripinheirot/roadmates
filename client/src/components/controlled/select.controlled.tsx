@@ -6,9 +6,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { CustomerModel } from '@/models/customer.model'
-import { Control } from 'react-hook-form'
+import { Control, FieldError } from 'react-hook-form'
 import { LabelInput } from '@/components/ui/label-input'
 import { FormField, FormItem } from '@/components/ui/form'
+import { Typography } from '../ui/typography'
 
 type SelectControlledProps = {
   data: CustomerModel[]
@@ -17,6 +18,7 @@ type SelectControlledProps = {
   name: string
   placeholder?: string
   isLoading?: boolean
+  error?: FieldError
 }
 
 export const SelectControlled = ({
@@ -26,6 +28,7 @@ export const SelectControlled = ({
   name,
   placeholder,
   isLoading,
+  error,
 }: SelectControlledProps) => {
   const renderOptions = () => {
     return data.map((customer) => (
@@ -62,6 +65,14 @@ export const SelectControlled = ({
             </SelectTrigger>
             <SelectContent>{renderOptions()}</SelectContent>
           </Select>
+          {error && (
+            <Typography
+              variant={'body3'}
+              className='text-red-500'
+            >
+              {error.message}
+            </Typography>
+          )}
         </FormItem>
       )}
     />

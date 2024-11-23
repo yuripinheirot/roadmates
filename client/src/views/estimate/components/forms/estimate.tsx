@@ -39,6 +39,7 @@ export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
         name='customer_id'
         placeholder='Selecione um cliente'
         isLoading={isLoadingCustomers}
+        error={errors.customer_id}
       />
       <InputControlled
         label='Origem'
