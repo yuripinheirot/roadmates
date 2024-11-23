@@ -24,13 +24,13 @@ export const EstimateStep = ({
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <section className='flex flex-col gap-4'>
       <EstimateForm onSubmit={onSubmit}>
         <BottomButtons
           showBack={false}
           isLoading={isLoadingEstimateRoute}
         />
       </EstimateForm>
-    </div>
+    </section>
   )
 }

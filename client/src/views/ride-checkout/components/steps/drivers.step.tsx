@@ -1,4 +1,3 @@
-import { Steps } from '../../types'
 import { BottomButtons } from '../botton-buttons'
 import { GoogleMapPreview } from '../google-map-preview'
 import { EstimateResponseType } from '@/api/controllers/rides/protocols/estimate.response.type'
@@ -15,13 +14,13 @@ export const DriversStep = ({
   onContinue,
 }: Props) => {
   return (
-    <div>
+    <section className='flex flex-col gap-4'>
       <GoogleMapPreview data={estimatedRouteData} />
       <BottomButtons
         showBack={true}
         onBack={onBack}
         onContinue={onContinue}
       />
-    </div>
+    </section>
   )
 }
