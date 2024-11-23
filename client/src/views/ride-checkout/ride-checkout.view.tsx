@@ -7,6 +7,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { EstimateFormSchemaType } from './components/forms/schema'
 import { EstimateFormSchema } from './components/forms/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ridesController } from '@/api/controllers/rides/rides.controller'
+import { useMutation } from '@tanstack/react-query'
 export const RideCheckoutView = () => {
   const [currentStep, setCurrentStep] = useState(0)
 
@@ -14,11 +16,26 @@ export const RideCheckoutView = () => {
     resolver: zodResolver(EstimateFormSchema),
   })
 
+  const {
+    mutateAsync: estimateRoute,
+    data: estimatedRouteData,
+    isPending: isLoadingEstimateRoute,
+  } = useMutation({
+    mutationFn: (data: EstimateFormSchemaType) =>
+      ridesController.estimate(data),
+  })
+
   const steps = [
     {
       key: Steps.ESTIMATE,
       label: 'Estimativa',
-      component: <EstimateStep />,
+      component: (
+        <EstimateStep
+          estimateRoute={estimateRoute}
+          estimatedRouteData={estimatedRouteData}
+          isLoadingEstimateRoute={isLoadingEstimateRoute}
+        />
+      ),
     },
     {
       key: Steps.RIDE_CONFIRMED,
@@ -28,10 +45,15 @@ export const RideCheckoutView = () => {
   ]
 
   const handleContinue = () => {
+    if (!estimatedRouteData) {
+      alert('Você precisa estimar a rota primeiro')
+      return
+    }
     if (!formMethods.formState.isValid) {
       formMethods.trigger()
       return
     }
+
     setCurrentStep(currentStep + 1)
   }
 

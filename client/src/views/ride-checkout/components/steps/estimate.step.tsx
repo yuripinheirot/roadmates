@@ -5,19 +5,19 @@ import {
 import { EstimateForm } from '../forms/estimate.form'
 import { EstimateFormSchemaType } from '../forms/schema'
 import { GoogleMapPreview } from '../google-map-preview'
-import { useMutation } from '@tanstack/react-query'
-import { ridesController } from '@/api/controllers/rides/rides.controller'
+import { EstimateResponseType } from '@/api/controllers/rides/protocols/estimate.response.type'
 
-export const EstimateStep = () => {
-  const {
-    mutateAsync: estimateRoute,
-    data: estimatedRouteData,
-    isPending: isLoadingEstimateRoute,
-  } = useMutation({
-    mutationFn: (data: EstimateFormSchemaType) =>
-      ridesController.estimate(data),
-  })
+type Props = {
+  estimateRoute: (data: EstimateFormSchemaType) => Promise<EstimateResponseType>
+  estimatedRouteData: EstimateResponseType | undefined
+  isLoadingEstimateRoute: boolean
+}
 
+export const EstimateStep = ({
+  estimateRoute,
+  estimatedRouteData,
+  isLoadingEstimateRoute,
+}: Props) => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     await estimateRoute(data as EstimateFormSchemaType)
   }
