@@ -1,4 +1,5 @@
 export enum Steps {
-  ESTIMATE = 'ESTIMATE',
-  RIDE_CONFIRMED = 'RIDE_CONFIRMED',
+  ESTIMATE = 0,
+  DRIVERS = 1,
+  RIDE_CONFIRMED = 2,
 }

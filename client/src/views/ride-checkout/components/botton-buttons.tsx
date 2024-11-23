@@ -5,11 +5,13 @@ export const BottomButtons = ({
   onContinue,
   showBack = false,
   showContinue = true,
+  isLoading,
 }: {
   onBack?: () => void
-  onContinue: () => void
+  onContinue?: () => void
   showBack?: boolean
   showContinue?: boolean
+  isLoading?: boolean
 }) => {
   return (
     <div className='flex justify-end gap-4'>
@@ -21,7 +23,15 @@ export const BottomButtons = ({
           Voltar
         </Button>
       )}
-      {showContinue && <Button onClick={onContinue}>Continuar</Button>}
+      {showContinue && (
+        <Button
+          onClick={onContinue}
+          isLoading={isLoading}
+          type='submit'
+        >
+          Continuar
+        </Button>
+      )}
     </div>
   )
 }

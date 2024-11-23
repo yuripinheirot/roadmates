@@ -1,5 +1,4 @@
 import { InputControlled } from '@/components/controlled/input.controlled'
-import { Button } from '@/components/ui/button'
 import { FieldError, FieldValues, useFormContext } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form'
 import { SelectControlled } from '@/components/controlled/select.controlled'
@@ -8,10 +7,10 @@ import { useQuery } from '@tanstack/react-query'
 
 type EstimateFormProps = {
   onSubmit: SubmitHandler<FieldValues>
-  isLoading: boolean
+  children: React.ReactNode
 }
 
-export const EstimateForm = ({ onSubmit, isLoading }: EstimateFormProps) => {
+export const EstimateForm = ({ onSubmit, children }: EstimateFormProps) => {
   const {
     register,
     handleSubmit,
@@ -52,15 +51,7 @@ export const EstimateForm = ({ onSubmit, isLoading }: EstimateFormProps) => {
         required
         error={errors.destination as FieldError}
       />
-
-      <Button
-        type='submit'
-        isLoading={isLoading}
-        disabled={isLoading}
-        variant={'outline'}
-      >
-        buscar rota
-      </Button>
+      {children}
     </form>
   )
 }

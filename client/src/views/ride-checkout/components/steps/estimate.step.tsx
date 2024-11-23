@@ -4,31 +4,33 @@ import {
 } from 'node_modules/react-hook-form/dist/types'
 import { EstimateForm } from '../forms/estimate.form'
 import { EstimateFormSchemaType } from '../forms/schema'
-import { GoogleMapPreview } from '../google-map-preview'
 import { EstimateResponseType } from '@/api/controllers/rides/protocols/estimate.response.type'
+import { BottomButtons } from '../botton-buttons'
 
 type Props = {
   estimateRoute: (data: EstimateFormSchemaType) => Promise<EstimateResponseType>
-  estimatedRouteData: EstimateResponseType | undefined
   isLoadingEstimateRoute: boolean
+  onContinue: () => void
 }
 
 export const EstimateStep = ({
   estimateRoute,
-  estimatedRouteData,
   isLoadingEstimateRoute,
+  onContinue,
 }: Props) => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     await estimateRoute(data as EstimateFormSchemaType)
+    onContinue()
   }
 
   return (
     <div className='flex flex-col gap-4'>
-      <EstimateForm
-        onSubmit={onSubmit}
-        isLoading={isLoadingEstimateRoute}
-      />
-      <GoogleMapPreview data={estimatedRouteData} />
+      <EstimateForm onSubmit={onSubmit}>
+        <BottomButtons
+          showBack={false}
+          isLoading={isLoadingEstimateRoute}
+        />
+      </EstimateForm>
     </div>
   )
 }
