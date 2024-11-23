@@ -9,7 +9,10 @@ import { EstimateFormSchema } from './components/forms/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ridesController } from '@/api/controllers/rides/rides.controller'
 import { useMutation } from '@tanstack/react-query'
+import { useToast } from '@/hooks/use-toast'
+import { AxiosError } from 'axios'
 export const RideCheckoutView = () => {
+  const { toast } = useToast()
   const [currentStep, setCurrentStep] = useState(0)
 
   const formMethods = useForm<EstimateFormSchemaType>({
@@ -23,6 +26,20 @@ export const RideCheckoutView = () => {
   } = useMutation({
     mutationFn: (data: EstimateFormSchemaType) =>
       ridesController.estimate(data),
+    onError: (error) => {
+      if (error instanceof AxiosError && error.response?.status === 404) {
+        toast({
+          title: 'Rota não encontrada',
+          variant: 'destructive',
+        })
+        return
+      }
+
+      toast({
+        title: 'Erro ao estimar a rota',
+        variant: 'destructive',
+      })
+    },
   })
 
   const steps = [
@@ -45,12 +62,17 @@ export const RideCheckoutView = () => {
   ]
 
   const handleContinue = () => {
+    formMethods.trigger()
+
     if (!estimatedRouteData) {
-      alert('Você precisa estimar a rota primeiro')
+      toast({
+        title: 'Você precisa estimar a rota primeiro',
+        variant: 'warning',
+      })
       return
     }
+
     if (!formMethods.formState.isValid) {
-      formMethods.trigger()
       return
     }
 
