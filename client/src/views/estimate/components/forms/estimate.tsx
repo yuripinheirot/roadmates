@@ -10,9 +10,10 @@ import { useQuery } from '@tanstack/react-query'
 
 type EstimateFormProps = {
   onSubmit: SubmitHandler<EstimateFormSchemaType>
+  isLoading: boolean
 }
 
-export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
+export const EstimateForm = ({ onSubmit, isLoading }: EstimateFormProps) => {
   const {
     register,
     handleSubmit,
@@ -56,7 +57,13 @@ export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
         error={errors.destination}
       />
 
-      <Button type='submit'>buscar rota</Button>
+      <Button
+        type='submit'
+        isLoading={isLoading}
+        disabled={isLoading}
+      >
+        buscar rota
+      </Button>
     </form>
   )
 }

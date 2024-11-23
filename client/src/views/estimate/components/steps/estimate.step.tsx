@@ -6,7 +6,11 @@ import { useMutation } from '@tanstack/react-query'
 import { ridesController } from '@/api/controllers/rides/rides.controller'
 
 export const EstimateStep = () => {
-  const { mutateAsync: estimateRoute, data: estimatedRouteData } = useMutation({
+  const {
+    mutateAsync: estimateRoute,
+    data: estimatedRouteData,
+    isPending: isLoadingEstimateRoute,
+  } = useMutation({
     mutationFn: (data: EstimateFormSchemaType) =>
       ridesController.estimate(data),
   })
@@ -17,7 +21,10 @@ export const EstimateStep = () => {
 
   return (
     <div className='flex flex-col gap-4'>
-      <EstimateForm onSubmit={onSubmit} />
+      <EstimateForm
+        onSubmit={onSubmit}
+        isLoading={isLoadingEstimateRoute}
+      />
       <GoogleMapPreview data={estimatedRouteData} />
     </div>
   )
