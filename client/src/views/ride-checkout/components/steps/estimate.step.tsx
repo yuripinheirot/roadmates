@@ -4,7 +4,7 @@ import {
 } from 'node_modules/react-hook-form/dist/types'
 import { EstimateForm } from '../forms/estimate.form'
 import { EstimateFormSchemaType } from '../forms/schema'
-import { GoogleMapPreview } from '../../google-map-preview'
+import { GoogleMapPreview } from '../google-map-preview'
 import { useMutation } from '@tanstack/react-query'
 import { ridesController } from '@/api/controllers/rides/rides.controller'
 

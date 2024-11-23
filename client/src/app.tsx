@@ -1,5 +1,5 @@
 import { MainLayout } from './layouts/main.layout'
-import { EstimateView } from './views/estimate/estimate.view'
+import { RideCheckoutView } from './views/ride-checkout/ride-checkout.view'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { NotFoundView } from './views/not-found/not-found.view'
 export const App = () => {
@@ -9,7 +9,7 @@ export const App = () => {
         <Routes>
           <Route
             path='/'
-            element={<EstimateView />}
+            element={<RideCheckoutView />}
           />
           <Route
             path='*'

@@ -1,4 +1,4 @@
-import { EstimateFormSchemaType } from '@/views/estimate/components/forms/schema'
+import { EstimateFormSchemaType } from '@/views/ride-checkout/components/forms/schema'
 import { http } from '@/api/http'
 import { EstimateResponseType } from './protocols/estimate.response.type'
 

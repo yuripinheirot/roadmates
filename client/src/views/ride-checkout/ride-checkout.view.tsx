@@ -7,7 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { EstimateFormSchemaType } from './components/forms/schema'
 import { EstimateFormSchema } from './components/forms/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-export const EstimateView = () => {
+export const RideCheckoutView = () => {
   const [currentStep, setCurrentStep] = useState(0)
 
   const formMethods = useForm<EstimateFormSchemaType>({
