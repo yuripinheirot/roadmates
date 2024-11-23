@@ -5,9 +5,9 @@ import { cn } from '@/lib/utils'
 const typographyVariants = cva('text-black', {
   variants: {
     variant: {
-      header1: 'text-4xl',
-      header2: 'text-3xl',
-      header3: 'text-2xl',
+      header1: 'text-2xl',
+      header2: 'text-xl',
+      header3: 'text-lg',
       body1: 'text-base',
       body2: 'text-sm',
       body3: 'text-xs',
