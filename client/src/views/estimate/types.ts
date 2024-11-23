@@ -1,0 +1,4 @@
+export enum Steps {
+  ESTIMATE = 'ESTIMATE',
+  RIDE_CONFIRMED = 'RIDE_CONFIRMED',
+}

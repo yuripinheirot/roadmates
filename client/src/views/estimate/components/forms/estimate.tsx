@@ -61,6 +61,7 @@ export const EstimateForm = ({ onSubmit, isLoading }: EstimateFormProps) => {
         type='submit'
         isLoading={isLoading}
         disabled={isLoading}
+        variant={'outline'}
       >
         buscar rota
       </Button>
