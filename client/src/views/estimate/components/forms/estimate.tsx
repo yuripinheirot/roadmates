@@ -55,7 +55,7 @@ export const EstimateForm = ({ onSubmit }: EstimateFormProps) => {
         error={errors.destination}
       />
 
-      <Button type='submit'>confirm</Button>
+      <Button type='submit'>buscar rota</Button>
     </form>
   )
 }
