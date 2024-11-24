@@ -66,7 +66,6 @@ export const ReactTable = ({
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}
-            <span>oioi</span>
           </TableRow>
         ))}
       </TableBody>
