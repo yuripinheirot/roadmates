@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useState } from 'react'
 import { EstimateStep } from './components/steps/estimate.step'
 import { RideConfirmedStep } from './components/steps/ride-confirmed.step'
 import { Steps } from './types'
@@ -14,15 +14,14 @@ import { DriversStep } from './components/steps/drivers.step'
 import { DriverModel } from '@/domain/models/driver.model'
 
 export const RideCheckoutContext = createContext({
-  selectedDriver: null as DriverModel | null,
-  setSelectedDriver: (driver: DriverModel) => {},
   setCurrentStep: (step: number) => {},
+  confirmRide: async (driver: DriverModel) => {},
+  isLoadingConfirmRide: false,
 })
 
 export const RideCheckoutView = () => {
   const { toast } = useToast()
   const [currentStep, setCurrentStep] = useState(0)
-  const [selectedDriver, setSelectedDriver] = useState<DriverModel | null>(null)
 
   const formMethods = useForm<EstimateFormSchemaType>({
     resolver: zodResolver(EstimateFormSchema),
@@ -50,6 +49,23 @@ export const RideCheckoutView = () => {
       })
     },
   })
+
+  const { mutateAsync: confirmRide, isPending: isLoadingConfirmRide } =
+    useMutation({
+      mutationFn: (driver: DriverModel) =>
+        ridesController.confirm({
+          customer_id: formMethods.getValues('customer_id'),
+          origin: formMethods.getValues('origin'),
+          destination: formMethods.getValues('destination'),
+          distance: estimatedRouteData!.distance,
+          duration: estimatedRouteData!.duration,
+          driver: {
+            id: driver.id,
+            name: driver.name,
+          },
+          value: driver.value,
+        }),
+    })
 
   const steps = [
     {
@@ -86,7 +102,7 @@ export const RideCheckoutView = () => {
   return (
     <FormProvider {...formMethods}>
       <RideCheckoutContext.Provider
-        value={{ selectedDriver, setSelectedDriver, setCurrentStep }}
+        value={{ confirmRide, setCurrentStep, isLoadingConfirmRide }}
       >
         <section className='flex flex-col gap-4'>
           <div>{steps[currentStep].component}</div>

@@ -16,7 +16,8 @@ import { RideCheckoutContext } from '../../ride-checkout.view'
 import { Steps } from '../../types'
 
 export const CardDesign = ({ data }: { data: DriverModel }) => {
-  const { setSelectedDriver, setCurrentStep } = useContext(RideCheckoutContext)
+  const { confirmRide, setCurrentStep, isLoadingConfirmRide } =
+    useContext(RideCheckoutContext)
 
   const SubItem = ({
     title,
@@ -45,8 +46,8 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
     )
   }
 
-  const handleSelectDriver = () => {
-    setSelectedDriver(data)
+  const handleSelectDriver = async () => {
+    await confirmRide(data)
     setCurrentStep(Steps.RIDE_CONFIRMED)
   }
 
@@ -80,7 +81,12 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
         </div>
       </CardContent>
       <CardFooter className='flex justify-end'>
-        <Button onClick={handleSelectDriver}>Escolher</Button>
+        <Button
+          onClick={handleSelectDriver}
+          isLoading={isLoadingConfirmRide}
+        >
+          Escolher
+        </Button>
       </CardFooter>
     </Card>
   )
