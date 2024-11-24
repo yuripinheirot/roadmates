@@ -10,9 +10,18 @@ import { DriverModel } from '@/domain/models/driver.model'
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { DineroUtils } from '@/utils/dinero'
+import { Rating } from '@smastrom/react-rating'
 
 export const CardDesign = ({ data }: { data: DriverModel }) => {
-  const SubItem = ({ title, value }: { title: string; value: string }) => {
+  const SubItem = ({
+    title,
+    value,
+    component,
+  }: {
+    title: string
+    value?: string
+    component?: React.ReactNode
+  }) => {
     return (
       <div className='flex justify-between'>
         <Typography
@@ -22,7 +31,11 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
         >
           {title}
         </Typography>
-        <Typography variant={'body3'}>{value}</Typography>
+        {component ? (
+          component
+        ) : (
+          <Typography variant={'body3'}>{value}</Typography>
+        )}
       </div>
     )
   }
@@ -41,7 +54,11 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
           />
           <SubItem
             title='Avaliação'
-            value={data.review.rating.toString()}
+            component={
+              <div className='flex items-center gap-2 max-w-[80px]'>
+                <Rating value={data.review.rating} />
+              </div>
+            }
           />
           <SubItem
             title='Preço'
