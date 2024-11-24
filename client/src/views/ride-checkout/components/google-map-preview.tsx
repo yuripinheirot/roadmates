@@ -26,7 +26,7 @@ export const GoogleMapPreview = ({
     : []
 
   return (
-    <div className='h-[400px] w-full'>
+    <div className='h-[350px] w-full'>
       <GoogleMap markers={locations} />
     </div>
   )
