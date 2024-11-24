@@ -20,6 +20,7 @@ type Props = {
   columns: ColumnDef<any, any>[]
   showFooter?: boolean
   showCaption?: boolean
+  renderSubComponent?: (row: any) => React.ReactNode
 }
 
 export const ReactTable = ({
@@ -27,6 +28,7 @@ export const ReactTable = ({
   columns,
   showFooter = false,
   showCaption = false,
+  renderSubComponent,
 }: Props) => {
   const table = useReactTable({
     data,
@@ -60,13 +62,25 @@ export const ReactTable = ({
       </TableHeader>
       <TableBody>
         {table.getRowModel().rows.map((row) => (
-          <TableRow key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </TableCell>
-            ))}
-          </TableRow>
+          <>
+            <TableRow
+              key={row.id}
+              className={renderSubComponent ? 'border-b-0' : ''}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+            {renderSubComponent && (
+              <TableRow>
+                <TableCell colSpan={row.getVisibleCells().length}>
+                  {renderSubComponent(row.original)}
+                </TableCell>
+              </TableRow>
+            )}
+          </>
         ))}
       </TableBody>
       {showFooter && (

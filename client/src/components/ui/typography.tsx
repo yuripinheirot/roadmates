@@ -19,10 +19,16 @@ const typographyVariants = cva('text-black', {
       medium: 'font-medium',
       bold: 'font-bold',
     },
+    fontColor: {
+      primary: 'text-primary',
+      secondary: 'text-secondary',
+      muted: 'text-muted-foreground',
+    },
   },
   defaultVariants: {
     variant: 'body1',
     weight: 'regular',
+    fontColor: 'primary',
   },
 })
 
@@ -31,10 +37,12 @@ export interface TypographyProps
     VariantProps<typeof typographyVariants> {}
 
 export const Typography = React.forwardRef<HTMLDivElement, TypographyProps>(
-  ({ className, variant, weight, ...props }, ref) => {
+  ({ className, variant, weight, fontColor, ...props }, ref) => {
     return (
       <span
-        className={cn(typographyVariants({ variant, weight, className }))}
+        className={cn(
+          typographyVariants({ variant, weight, fontColor, className })
+        )}
         ref={ref}
         {...props}
       />
