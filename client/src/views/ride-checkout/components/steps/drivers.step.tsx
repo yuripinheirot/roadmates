@@ -9,19 +9,15 @@ type Props = {
   onContinue: () => void
 }
 
-export const DriversStep = ({
-  estimatedRouteData,
-  onBack,
-  onContinue,
-}: Props) => {
+export const DriversStep = ({ estimatedRouteData, onBack }: Props) => {
   return (
     <section className='flex flex-col gap-4'>
       <GoogleMapPreview data={estimatedRouteData} />
       <DriversCards data={estimatedRouteData?.options || []} />
       <BottomButtons
         showBack={true}
+        showContinue={false}
         onBack={onBack}
-        onContinue={onContinue}
       />
     </section>
   )

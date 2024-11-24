@@ -11,8 +11,13 @@ import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { DineroUtils } from '@/utils/dinero'
 import { Rating } from '@smastrom/react-rating'
+import { useContext } from 'react'
+import { RideCheckoutContext } from '../../ride-checkout.view'
+import { Steps } from '../../types'
 
 export const CardDesign = ({ data }: { data: DriverModel }) => {
+  const { setSelectedDriver, setCurrentStep } = useContext(RideCheckoutContext)
+
   const SubItem = ({
     title,
     value,
@@ -38,6 +43,11 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
         )}
       </div>
     )
+  }
+
+  const handleSelectDriver = () => {
+    setSelectedDriver(data)
+    setCurrentStep(Steps.RIDE_CONFIRMED)
   }
 
   return (
@@ -70,7 +80,7 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
         </div>
       </CardContent>
       <CardFooter className='flex justify-end'>
-        <Button>Escolher</Button>
+        <Button onClick={handleSelectDriver}>Escolher</Button>
       </CardFooter>
     </Card>
   )
