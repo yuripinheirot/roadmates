@@ -55,7 +55,7 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
           <SubItem
             title='Avaliação'
             component={
-              <div className='flex items-center gap-2 max-w-[80px]'>
+              <div className='flex items-center gap-2 max-w-[80px] max-h-[20px]'>
                 <Rating value={data.review.rating} />
               </div>
             }
