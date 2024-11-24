@@ -9,6 +9,7 @@ import {
 import { DriverModel } from '@/domain/models/driver.model'
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
+import { DineroUtils } from '@/utils/dinero'
 
 export const CardDesign = ({ data }: { data: DriverModel }) => {
   const SubItem = ({ title, value }: { title: string; value: string }) => {
@@ -44,7 +45,10 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
           />
           <SubItem
             title='Preço'
-            value={data.value.toString()}
+            value={DineroUtils.formatToString({
+              value: data.value,
+              precision: 2,
+            })}
           />
         </div>
       </CardContent>
