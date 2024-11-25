@@ -36,10 +36,12 @@ export const RideHistoryView = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <RideHistoryForm onSubmit={fetchRides}>
-        <Button>Buscar</Button>
-      </RideHistoryForm>
-      <RidesCards data={rides?.rides || []} />
+      <section className='flex flex-col gap-4'>
+        <RideHistoryForm onSubmit={fetchRides}>
+          <Button>Buscar</Button>
+        </RideHistoryForm>
+        <RidesCards data={rides?.rides || []} />
+      </section>
     </FormProvider>
   )
 }

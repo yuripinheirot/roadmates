@@ -8,4 +8,7 @@ export type RideModel = {
   date: Date
   customer_id: string
   driver_id: string
+  driver?: {
+    name: string
+  }
 }

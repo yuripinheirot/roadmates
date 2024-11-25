@@ -23,7 +23,7 @@ export const RidesCards = ({ data }: Props) => {
           variant='body3'
           fontColor={'muted'}
         >
-          Não foi encontrado nenhum dado
+          Nenhum dado foi encontrado
         </Typography>
       </div>
     )

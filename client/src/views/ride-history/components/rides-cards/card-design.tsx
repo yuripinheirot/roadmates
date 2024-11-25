@@ -8,9 +8,10 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
-import { CustomRideModel } from '@/api/controllers/rides/protocols/list.response.type'
+import { RideModel } from '@/domain/models/ride.model'
+import { DineroUtils } from '@/utils/dinero'
 
-export const CardDesign = ({ data }: { data: CustomRideModel }) => {
+export const CardDesign = ({ data }: { data: RideModel }) => {
   const SubItem = ({
     title,
     value,
@@ -41,12 +42,18 @@ export const CardDesign = ({ data }: { data: CustomRideModel }) => {
   return (
     <Card className='w-full'>
       <CardHeader>
-        <CardTitle>{data.driver.name}</CardTitle>
+        <CardTitle>
+          {data.origin} - {data.destination}
+        </CardTitle>
         <CardDescription>{data.origin}</CardDescription>
         <CardDescription>{data.destination}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className='flex flex-col gap-2'>
+          <SubItem
+            title='Motorista'
+            value={data.driver?.name}
+          />
           <SubItem
             title='Data'
             value={data.date.toString()}
@@ -58,6 +65,13 @@ export const CardDesign = ({ data }: { data: CustomRideModel }) => {
           <SubItem
             title='Tempo'
             value={data.duration}
+          />
+          <SubItem
+            title='Valor'
+            value={DineroUtils.formatToString({
+              value: data.value,
+              precision: 2,
+            })}
           />
         </div>
       </CardContent>
