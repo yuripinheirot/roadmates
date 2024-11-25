@@ -23,6 +23,11 @@ export const EstimateForm = ({ onSubmit, children }: EstimateFormProps) => {
     queryFn: () => customerController.findAll(),
   })
 
+  const customersFormatted = customers?.map((customer) => ({
+    key: customer.id,
+    value: customer.name,
+  }))
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -30,7 +35,7 @@ export const EstimateForm = ({ onSubmit, children }: EstimateFormProps) => {
     >
       <SelectControlled
         label='Cliente'
-        data={customers || []}
+        data={customersFormatted || []}
         control={control}
         name='customer_id'
         placeholder='Selecione um cliente'
