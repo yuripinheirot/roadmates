@@ -36,6 +36,13 @@ export class RideRepositoryService {
         customer_id: data.customer_id,
         driver_id: data.driver_id,
       },
+      include: {
+        driver: {
+          select: {
+            name: true,
+          },
+        },
+      },
       orderBy: {
         date: 'desc',
       },
