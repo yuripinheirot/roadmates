@@ -1,8 +1,14 @@
+import { RideModel } from '@/domain/models/ride.model'
 import React from 'react'
 
 type Props = {
-  data: any
+  data: RideModel
 }
 export const CardDesign = ({ data }: Props) => {
-  return <div>CardDesign</div>
+  console.log('🚀 ~ CardDesign ~ data:', data)
+  return (
+    <div>
+      {data.origin} {data.destination}
+    </div>
+  )
 }

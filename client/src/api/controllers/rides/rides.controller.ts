@@ -3,6 +3,7 @@ import { http } from '@/api/http'
 import { EstimateResponseType } from './protocols/estimate.response.type'
 import { ConfirmRideRequestType } from './protocols/confirm-ride.request.type'
 import { ListRequestDto } from './protocols/list.request.dto'
+import { ListResponseType } from './protocols/list.response.type'
 
 export const ridesController = {
   estimate: async (
@@ -15,7 +16,10 @@ export const ridesController = {
     const response = await http.patch('/rides/confirm', data)
     return response.data
   },
-  list: async ({ customer_id, driver_id }: ListRequestDto): Promise<void> => {
+  list: async ({
+    customer_id,
+    driver_id,
+  }: ListRequestDto): Promise<ListResponseType> => {
     const response = await http.get(`/rides/${customer_id}`, {
       params: {
         driver_id,

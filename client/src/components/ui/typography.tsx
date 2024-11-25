@@ -23,6 +23,7 @@ const typographyVariants = cva('text-black', {
       primary: 'text-primary',
       secondary: 'text-secondary',
       muted: 'text-muted-foreground',
+      error: 'text-red-500',
     },
   },
   defaultVariants: {

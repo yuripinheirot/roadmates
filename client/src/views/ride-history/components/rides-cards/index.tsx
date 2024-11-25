@@ -1,14 +1,37 @@
-import { DriverModel } from '@/domain/models/driver.model'
+import { Typography } from '@/components/ui/typography'
 import { CardDesign } from './card-design'
+import { RideModel } from '@/domain/models/ride.model'
 
 type Props = {
-  data: DriverModel[]
+  data: RideModel[]
 }
 
 export const RidesCards = ({ data }: Props) => {
   const renderCards = () => {
-    return data.map((data) => <CardDesign data={data} />)
+    return data.map((data) => (
+      <CardDesign
+        data={data}
+        key={data.id}
+      />
+    ))
   }
 
-  return <div className='flex flex-col gap-4'>{renderCards()}</div>
+  const NoData = () => {
+    return (
+      <div className='flex flex-col items-center justify-center p-4 '>
+        <Typography
+          variant='body3'
+          fontColor={'muted'}
+        >
+          Não foi encontrado nenhuma corrida
+        </Typography>
+      </div>
+    )
+  }
+
+  return (
+    <div className='flex flex-col gap-4'>
+      {data.length ? renderCards() : <NoData />}
+    </div>
+  )
 }
