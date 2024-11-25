@@ -10,7 +10,8 @@ import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { RideModel } from '@/domain/models/ride.model'
 import { DineroUtils } from '@/utils/dinero'
-
+import { format, formatDuration, intervalToDuration } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 export const CardDesign = ({ data }: { data: RideModel }) => {
   const SubItem = ({
     title,
@@ -56,7 +57,7 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
           />
           <SubItem
             title='Data'
-            value={data.date.toString()}
+            value={format(data.date, 'dd/MM/yyyy')}
           />
           <SubItem
             title='Distância'
@@ -64,7 +65,15 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
           />
           <SubItem
             title='Tempo'
-            value={data.duration}
+            value={formatDuration(
+              intervalToDuration({
+                start: 0,
+                end: Number(data.duration.replace('s', '')) * 100,
+              }),
+              {
+                locale: ptBR,
+              }
+            )}
           />
           <SubItem
             title='Valor'
