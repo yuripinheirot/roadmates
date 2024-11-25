@@ -1,7 +1,7 @@
 import { BottomButtons } from '../botton-buttons'
 import { GoogleMapPreview } from '../google-map-preview'
 import { EstimateResponseType } from '@/api/controllers/rides/protocols/estimate.response.type'
-import { DriversCards } from '../drivers-cards/drivers-cards'
+import { DriversCards } from '../drivers-cards'
 
 type Props = {
   estimatedRouteData: EstimateResponseType | undefined
