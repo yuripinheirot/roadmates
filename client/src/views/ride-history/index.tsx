@@ -14,6 +14,9 @@ import { AxiosError } from 'axios'
 export const RideHistoryView = () => {
   const formMethods = useForm<HistoryFormSchemaType>({
     resolver: zodResolver(HistoryFormSchema),
+    defaultValues: {
+      driver_id: '*',
+    },
   })
 
   const { data: rides, refetch: fetchRides } = useQuery({
