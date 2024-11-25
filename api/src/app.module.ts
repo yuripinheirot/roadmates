@@ -9,6 +9,7 @@ import type { RedisClientOptions } from 'redis';
 import { redisStore } from 'cache-manager-redis-store';
 import { appConfig } from '@/constants/app-config';
 import { CustomersModule } from './modules/customers/customers.module';
+import { DriversModule } from './modules/drivers/drivers.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -48,6 +49,7 @@ import { CustomersModule } from './modules/customers/customers.module';
     StatusModule,
     RidesModule,
     CustomersModule,
+    DriversModule,
   ],
   controllers: [],
   providers: [],
