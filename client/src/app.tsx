@@ -3,7 +3,7 @@ import { RideCheckoutView } from './views/ride-checkout/ride-checkout.view'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { NotFoundView } from './views/not-found/not-found.view'
 import { Toaster } from '@/components/ui/toaster'
-import { RideHistoryView } from './views/ride-history'
+import { RideHistoryView } from './views/ride-history/ride-history.view'
 export const App = () => {
   return (
     <MainLayout>
