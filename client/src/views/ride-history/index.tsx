@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { RideHistoryForm } from './components/ride-history.form'
+import { RideHistoryForm } from './components/form/ride-history.form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormProvider, useForm } from 'react-hook-form'
-import { HistoryFormSchema, HistoryFormSchemaType } from './components/schema'
+import {
+  HistoryFormSchema,
+  HistoryFormSchemaType,
+} from './components/form/schema'
 
 export const RideHistoryView = () => {
   const formMethods = useForm<HistoryFormSchemaType>({
