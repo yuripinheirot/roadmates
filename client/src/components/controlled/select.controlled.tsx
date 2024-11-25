@@ -34,7 +34,7 @@ export const SelectControlled = ({
     return data.map((data) => (
       <SelectItem
         key={data.key}
-        value={data.value}
+        value={data.key}
       >
         {data.value}
       </SelectItem>

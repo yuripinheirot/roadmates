@@ -2,6 +2,7 @@ import { EstimateFormSchemaType } from '@/views/ride-checkout/components/forms/s
 import { http } from '@/api/http'
 import { EstimateResponseType } from './protocols/estimate.response.type'
 import { ConfirmRideRequestType } from './protocols/confirm-ride.request.type'
+import { ListRequestDto } from './protocols/list.request.dto'
 
 export const ridesController = {
   estimate: async (
@@ -12,6 +13,14 @@ export const ridesController = {
   },
   confirm: async (data: ConfirmRideRequestType): Promise<void> => {
     const response = await http.patch('/rides/confirm', data)
+    return response.data
+  },
+  list: async ({ customer_id, driver_id }: ListRequestDto): Promise<void> => {
+    const response = await http.get(`/rides/${customer_id}`, {
+      params: {
+        driver_id,
+      },
+    })
     return response.data
   },
 }

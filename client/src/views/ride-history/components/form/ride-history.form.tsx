@@ -71,7 +71,7 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
         name='driver_id'
         placeholder='Selecione um motorista'
         isLoading={isLoadingDrivers}
-        error={errors.customer_id as FieldError}
+        error={errors.driver_id as FieldError}
       />
       {children}
     </form>
