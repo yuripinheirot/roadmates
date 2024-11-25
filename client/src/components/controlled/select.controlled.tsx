@@ -19,6 +19,8 @@ type SelectControlledProps = {
   placeholder?: string
   isLoading?: boolean
   error?: FieldError
+  optionAll?: boolean
+  defaultValue?: string
 }
 
 export const SelectControlled = ({
@@ -29,6 +31,8 @@ export const SelectControlled = ({
   placeholder,
   isLoading,
   error,
+  optionAll,
+  defaultValue,
 }: SelectControlledProps) => {
   const renderOptions = () => {
     return data.map((data) => (
@@ -55,7 +59,7 @@ export const SelectControlled = ({
           )}
           <Select
             onValueChange={field.onChange}
-            defaultValue={field.value}
+            defaultValue={defaultValue}
           >
             <SelectTrigger
               className='flex items-center gap-2'
@@ -63,7 +67,10 @@ export const SelectControlled = ({
             >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent>{renderOptions()}</SelectContent>
+            <SelectContent>
+              {optionAll && <SelectItem value={'*'}>Todos</SelectItem>}
+              {renderOptions()}
+            </SelectContent>
           </Select>
           {error && (
             <Typography

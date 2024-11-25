@@ -20,9 +20,11 @@ export const ridesController = {
     customer_id,
     driver_id,
   }: ListRequestDto): Promise<ListResponseType> => {
+    const driver_id_param = driver_id === '*' ? undefined : driver_id
+
     const response = await http.get(`/rides/${customer_id}`, {
       params: {
-        driver_id,
+        driver_id: driver_id_param,
       },
     })
     return response.data
