@@ -1,6 +1,8 @@
 import { customerController } from '@/api/controllers/customers/customer.controller'
+import { driversController } from '@/api/controllers/drivers/drivers.controller'
 import { SelectControlled } from '@/components/controlled/select.controlled'
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import {
   FieldError,
   FieldValues,
@@ -25,6 +27,29 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
     queryFn: () => customerController.findAll(),
   })
 
+  const { data: drivers, isLoading: isLoadingDrivers } = useQuery({
+    queryKey: ['drivers'],
+    queryFn: () => driversController.findAll(),
+  })
+
+  const driversFormated = useMemo(
+    () =>
+      drivers?.map((d) => ({
+        key: d.id,
+        value: `${d.name} - ${d.vehicle}`,
+      })),
+    [drivers]
+  )
+
+  const customersFormated = useMemo(
+    () =>
+      customers?.map((c) => ({
+        key: c.id,
+        value: c.name,
+      })),
+    [customers]
+  )
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -32,7 +57,7 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
     >
       <SelectControlled
         label='Cliente'
-        data={customers || []}
+        data={customersFormated || []}
         control={control}
         name='customer_id'
         placeholder='Selecione um cliente'
@@ -41,11 +66,11 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
       />
       <SelectControlled
         label='Motorista'
-        data={customers || []}
+        data={driversFormated || []}
         control={control}
         name='driver_id'
         placeholder='Selecione um motorista'
-        isLoading={isLoadingCustomers}
+        isLoading={isLoadingDrivers}
         error={errors.customer_id as FieldError}
       />
       {children}

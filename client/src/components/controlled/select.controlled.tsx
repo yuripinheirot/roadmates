@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Select,
   SelectContent,
@@ -5,14 +6,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { CustomerModel } from '@/domain/models/customer.model'
 import { Control, FieldError } from 'react-hook-form'
 import { LabelInput } from '@/components/ui/label-input'
 import { FormField, FormItem } from '@/components/ui/form'
 import { Typography } from '../ui/typography'
 
 type SelectControlledProps = {
-  data: CustomerModel[]
+  data: { key: string; value: any }[]
   control: Control<any>
   label?: string
   name: string
@@ -31,12 +31,12 @@ export const SelectControlled = ({
   error,
 }: SelectControlledProps) => {
   const renderOptions = () => {
-    return data.map((customer) => (
+    return data.map((data) => (
       <SelectItem
-        key={customer.id}
-        value={customer.id}
+        key={data.key}
+        value={data.value}
       >
-        {customer.name}
+        {data.value}
       </SelectItem>
     ))
   }
