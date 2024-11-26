@@ -3,7 +3,7 @@ import { CardDesign } from './card-design'
 import { RideModel } from '@/domain/models/ride.model'
 
 type Props = {
-  data: RideModel[]
+  data: RideModel[] | null | undefined
 }
 
 export const RidesCards = ({ data }: Props) => {
@@ -29,9 +29,10 @@ export const RidesCards = ({ data }: Props) => {
     )
   }
 
-  return (
-    <div className='flex flex-col gap-4'>
-      {data.length ? renderCards() : <NoData />}
-    </div>
-  )
+  const render = () => {
+    if (data === null || data === undefined) return <></>
+    return data.length ? renderCards() : <NoData />
+  }
+
+  return <div className='flex flex-col gap-4'>{render()}</div>
 }

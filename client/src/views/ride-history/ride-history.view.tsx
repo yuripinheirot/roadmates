@@ -12,6 +12,7 @@ import { ridesController } from '@/api/controllers/rides/rides.controller'
 import { AxiosError } from 'axios'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
+import { toast } from '@/hooks/use-toast'
 
 export const RideHistoryView = () => {
   const [searchParams] = useSearchParams()
@@ -34,6 +35,10 @@ export const RideHistoryView = () => {
         })
       } catch (error: unknown) {
         if (error instanceof AxiosError && error?.response?.status === 404) {
+          toast({
+            title: 'Info!',
+            description: 'Nenhum dado foi encontrado',
+          })
           return { rides: [] }
         }
         throw error
@@ -69,7 +74,7 @@ export const RideHistoryView = () => {
         <RideHistoryForm onSubmit={fetchRides}>
           <Button type='submit'>Buscar</Button>
         </RideHistoryForm>
-        <RidesCards data={rides?.rides || []} />
+        <RidesCards data={rides?.rides} />
       </section>
     </FormProvider>
   )
