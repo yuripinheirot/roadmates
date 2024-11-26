@@ -53,6 +53,11 @@ export class ConfirmService {
     await this.validateCustomer(body.customer_id);
   }
 
+  calculateRideValue(body: ConfirmRequestDto): number {
+    const distanceInKm = body.distance / 1000;
+    return distanceInKm * body.value;
+  }
+
   formatRidePayload(body: ConfirmRequestDto): Prisma.RideCreateInput {
     const { customer_id, driver, ...rest } = body;
     return {
@@ -68,7 +73,7 @@ export class ConfirmService {
           id: driver.id,
         },
       },
-      value: body.value,
+      value: this.calculateRideValue(body),
     };
   }
 
