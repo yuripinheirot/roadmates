@@ -4,6 +4,7 @@ import { EstimateResponseType } from '@/api/controllers/rides/protocols/estimate
 import { DriversCards } from './cards'
 import { Typography } from '@/components/ui/typography'
 import { formatDistance, formatDuration } from '@/utils/utils'
+import { useFormContext } from 'react-hook-form'
 
 type Props = {
   estimatedRouteData: EstimateResponseType | undefined
@@ -11,6 +12,8 @@ type Props = {
 }
 
 export const DriversStep = ({ estimatedRouteData, onBack }: Props) => {
+  const { getValues } = useFormContext()
+  const { origin, destination } = getValues()
   return (
     <section className='flex flex-col gap-4'>
       <GoogleMapPreview data={estimatedRouteData} />
@@ -20,6 +23,20 @@ export const DriversStep = ({ estimatedRouteData, onBack }: Props) => {
           weight='semibold'
         >
           Informações da viagem
+        </Typography>
+        <Typography
+          variant='body2'
+          weight='regular'
+          className='capitalize'
+        >
+          Origem: {origin}
+        </Typography>
+        <Typography
+          variant='body2'
+          weight='regular'
+          className='capitalize'
+        >
+          Destino: {destination}
         </Typography>
         <Typography
           variant='body2'
