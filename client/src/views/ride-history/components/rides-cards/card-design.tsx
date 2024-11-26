@@ -8,8 +8,9 @@ import {
 import { Typography } from '@/components/ui/typography'
 import { RideModel } from '@/domain/models/ride.model'
 import { DineroUtils } from '@/utils/dinero'
-import { format, formatDuration, intervalToDuration } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { format } from 'date-fns'
+import { formatDuration } from '@/utils/utils'
+
 export const CardDesign = ({ data }: { data: RideModel }) => {
   const SubItem = ({
     title,
@@ -62,15 +63,7 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
           />
           <SubItem
             title='Tempo'
-            value={formatDuration(
-              intervalToDuration({
-                start: 0,
-                end: Number(data.duration.replace('s', '')) * 100,
-              }),
-              {
-                locale: ptBR,
-              }
-            )}
+            value={formatDuration(Number(data.duration.replace('s', '')))}
           />
           <SubItem
             title='Valor'

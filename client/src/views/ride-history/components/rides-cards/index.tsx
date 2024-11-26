@@ -8,7 +8,7 @@ type Props = {
 
 export const RidesCards = ({ data }: Props) => {
   const renderCards = () => {
-    return data.map((data) => (
+    return data?.map((data) => (
       <CardDesign
         data={data}
         key={data.id}
