@@ -34,6 +34,10 @@ export class EstimateService {
     )[0];
   }
 
+  convertDistanceToKm(distance: number) {
+    return distance / 1000;
+  }
+
   async handle(body: EstimateRequestDto): Promise<EstimateResponseDto> {
     const { origin, destination, customer_id } = body;
 
@@ -56,13 +60,13 @@ export class EstimateService {
     }
 
     const drivers = await this.rideRepository.getDriversByMinDistance(
-      shorterRoute.distanceMeters,
+      this.convertDistanceToKm(shorterRoute.distanceMeters),
     );
 
     return {
       origin: shorterRoute.legs[0].startLocation.latLng,
       destination: shorterRoute.legs[0].endLocation.latLng,
-      distance: shorterRoute.distanceMeters,
+      distance: this.convertDistanceToKm(shorterRoute.distanceMeters),
       duration: shorterRoute.duration,
       options: drivers,
       routeResponse: calculatedRoute,

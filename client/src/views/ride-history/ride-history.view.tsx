@@ -74,6 +74,7 @@ export const RideHistoryView = () => {
         <RideHistoryForm onSubmit={fetchRides}>
           <Button type='submit'>Buscar</Button>
         </RideHistoryForm>
+
         <RidesCards data={rides?.rides} />
       </section>
     </FormProvider>

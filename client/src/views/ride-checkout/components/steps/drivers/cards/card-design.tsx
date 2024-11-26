@@ -91,6 +91,10 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
               precision: 2,
             })}
           />
+          <SubItem
+            title='Km mínimo'
+            value={`${data.minDistance} km`}
+          />
         </div>
       </CardContent>
       <CardFooter className='flex justify-end'>

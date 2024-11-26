@@ -8,12 +8,23 @@ type Props = {
 
 export const RidesCards = ({ data }: Props) => {
   const renderCards = () => {
-    return data?.map((data) => (
+    const cards = data?.map((data) => (
       <CardDesign
         data={data}
         key={data.id}
       />
     ))
+    return (
+      <div>
+        <Typography
+          variant='header3'
+          weight='bold'
+        >
+          Corridas encontradas
+        </Typography>
+        <div className='flex flex-col gap-4'>{cards}</div>
+      </div>
+    )
   }
 
   const NoData = () => {
@@ -34,5 +45,5 @@ export const RidesCards = ({ data }: Props) => {
     return data.length ? renderCards() : <NoData />
   }
 
-  return <div className='flex flex-col gap-4'>{render()}</div>
+  return render()
 }

@@ -54,12 +54,7 @@ export class ConfirmService {
   }
 
   calculateRideValue(body: ConfirmRequestDto): number {
-    const distanceInKm = this.convertDistanceToKm(body.distance);
-    return distanceInKm * body.value;
-  }
-
-  convertDistanceToKm(distance: number): number {
-    return distance / 1000;
+    return body.distance * body.value;
   }
 
   formatRidePayload(body: ConfirmRequestDto): Prisma.RideCreateInput {
@@ -77,7 +72,7 @@ export class ConfirmService {
           id: driver.id,
         },
       },
-      distance: this.convertDistanceToKm(body.distance),
+      distance: body.distance,
       value: this.calculateRideValue(body),
     };
   }

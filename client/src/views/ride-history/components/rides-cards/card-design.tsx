@@ -42,7 +42,7 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
   return (
     <Card className='w-full'>
       <CardHeader>
-        <CardTitle>
+        <CardTitle className='capitalize'>
           {data.origin} → {data.destination}
         </CardTitle>
         <CardDescription>Dados da corrida</CardDescription>

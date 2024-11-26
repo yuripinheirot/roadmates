@@ -17,7 +17,7 @@ export const DriversCards = ({ data }: Props) => {
         variant='header3'
         weight='semibold'
       >
-        Motoristas encontrados
+        Selecione um motorista
       </Typography>
       <div className='flex flex-col gap-4'>{renderCards()}</div>
     </div>
