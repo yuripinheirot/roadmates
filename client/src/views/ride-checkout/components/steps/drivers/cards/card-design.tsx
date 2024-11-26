@@ -12,11 +12,11 @@ import { Typography } from '@/components/ui/typography'
 import { DineroUtils } from '@/utils/dinero'
 import { Rating } from '@smastrom/react-rating'
 import { useContext } from 'react'
-import { RideCheckoutContext } from '../../contexts/ride-checkout.context'
 import { toast } from '@/hooks/use-toast'
 import { useNavigate } from 'react-router'
 import { summaryRoutes } from '@/utils/summary-routes'
 import { useFormContext } from 'react-hook-form'
+import { RideCheckoutContext } from '@/views/ride-checkout/contexts/ride-checkout.context'
 
 export const CardDesign = ({ data }: { data: DriverModel }) => {
   const navigate = useNavigate()

@@ -2,10 +2,10 @@ import {
   FieldValues,
   SubmitHandler,
 } from 'node_modules/react-hook-form/dist/types'
-import { EstimateForm } from '../forms/estimate.form'
-import { EstimateFormSchemaType } from '../forms/schema'
+import { EstimateForm } from '../../forms/estimate.form'
+import { EstimateFormSchemaType } from '../../forms/schema'
 import { EstimateResponseType } from '@/api/controllers/rides/protocols/estimate.response.type'
-import { BottomButtons } from '../botton-buttons'
+import { BottomButtons } from '../../botton-buttons'
 
 type Props = {
   estimateRoute: (data: EstimateFormSchemaType) => Promise<EstimateResponseType>
