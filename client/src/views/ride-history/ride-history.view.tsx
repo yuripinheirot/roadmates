@@ -10,8 +10,12 @@ import { useQuery } from '@tanstack/react-query'
 import { RidesCards } from './components/rides-cards'
 import { ridesController } from '@/api/controllers/rides/rides.controller'
 import { AxiosError } from 'axios'
+import { useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export const RideHistoryView = () => {
+  const [searchParams] = useSearchParams()
+
   const formMethods = useForm<HistoryFormSchemaType>({
     resolver: zodResolver(HistoryFormSchema),
     defaultValues: {
@@ -36,6 +40,21 @@ export const RideHistoryView = () => {
     },
     enabled: false,
   })
+
+  const loadParams = () => {
+    const customer_id = searchParams.get('customer_id')
+    const driver_id = searchParams.get('driver_id')
+
+    if (customer_id && driver_id) {
+      formMethods.setValue('customer_id', customer_id)
+      formMethods.setValue('driver_id', driver_id)
+      fetchRides()
+    }
+  }
+
+  useEffect(() => {
+    loadParams()
+  }, [])
 
   return (
     <FormProvider {...formMethods}>
