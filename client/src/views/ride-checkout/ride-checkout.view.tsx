@@ -80,7 +80,6 @@ export const RideCheckoutView = () => {
         <DriversStep
           estimatedRouteData={estimatedRouteData}
           onBack={() => setCurrentStep(Steps.ESTIMATE)}
-          onContinue={() => setCurrentStep(Steps.RIDE_CONFIRMED)}
         />
       ),
     },

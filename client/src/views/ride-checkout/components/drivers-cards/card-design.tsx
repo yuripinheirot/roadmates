@@ -16,10 +16,12 @@ import { RideCheckoutContext } from '../../contexts/ride-checkout.context'
 import { toast } from '@/hooks/use-toast'
 import { useNavigate } from 'react-router'
 import { summaryRoutes } from '@/utils/summary-routes'
+import { useFormContext } from 'react-hook-form'
 
 export const CardDesign = ({ data }: { data: DriverModel }) => {
   const navigate = useNavigate()
   const { confirmRide, isLoadingConfirmRide } = useContext(RideCheckoutContext)
+  const { getValues } = useFormContext()
 
   const SubItem = ({
     title,
@@ -50,11 +52,16 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
 
   const handleSelectDriver = async () => {
     await confirmRide(data)
+
     toast({
-      title: 'Motorista selecionado com sucesso!',
+      title: 'Viagem confirmada com sucesso!',
       variant: 'success',
     })
-    navigate(summaryRoutes.history)
+    navigate(
+      `${summaryRoutes.history}?driver_id=${data.id}&customer_id=${getValues(
+        'customer_id'
+      )}`
+    )
   }
 
   return (

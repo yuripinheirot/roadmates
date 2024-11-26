@@ -9,6 +9,7 @@ import {
   SubmitHandler,
   useFormContext,
 } from 'react-hook-form'
+import { useSearchParams } from 'react-router'
 
 type Props = {
   onSubmit: SubmitHandler<FieldValues>
@@ -16,6 +17,8 @@ type Props = {
 }
 
 export const RideHistoryForm = ({ children, onSubmit }: Props) => {
+  const [searchParams] = useSearchParams()
+
   const {
     handleSubmit,
     formState: { errors },
@@ -63,6 +66,7 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
         placeholder='Selecione um cliente'
         isLoading={isLoadingCustomers}
         error={errors.customer_id as FieldError}
+        defaultValue={searchParams.get('customer_id') || ''}
       />
       <SelectControlled
         label='Motorista'
@@ -73,7 +77,7 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
         isLoading={isLoadingDrivers}
         error={errors.driver_id as FieldError}
         optionAll={true}
-        defaultValue={'*'}
+        defaultValue={searchParams.get('driver_id') || '*'}
       />
       {children}
     </form>

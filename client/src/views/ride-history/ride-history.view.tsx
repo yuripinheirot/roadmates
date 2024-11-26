@@ -23,7 +23,7 @@ export const RideHistoryView = () => {
     queryKey: ['rides'],
     queryFn: async () => {
       try {
-        return await ridesController.list({
+        return ridesController.list({
           customer_id: formMethods.getValues().customer_id,
           driver_id: formMethods.getValues().driver_id,
         })

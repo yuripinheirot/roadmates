@@ -6,7 +6,6 @@ import { DriversCards } from '../drivers-cards'
 type Props = {
   estimatedRouteData: EstimateResponseType | undefined
   onBack: () => void
-  onContinue: () => void
 }
 
 export const DriversStep = ({ estimatedRouteData, onBack }: Props) => {
