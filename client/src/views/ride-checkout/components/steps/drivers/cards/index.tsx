@@ -1,5 +1,6 @@
 import { DriverModel } from '@/domain/models/driver.model'
 import { CardDesign } from './card-design'
+import { Typography } from '@/components/ui/typography'
 
 type Props = {
   data: DriverModel[]
@@ -10,5 +11,15 @@ export const DriversCards = ({ data }: Props) => {
     return data.map((data) => <CardDesign data={data} />)
   }
 
-  return <div className='flex flex-col gap-4'>{renderCards()}</div>
+  return (
+    <div>
+      <Typography
+        variant='header3'
+        weight='semibold'
+      >
+        {data.length} motoristas encontrados
+      </Typography>
+      <div className='flex flex-col gap-4'>{renderCards()}</div>
+    </div>
+  )
 }
