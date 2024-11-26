@@ -13,7 +13,7 @@ export const App = () => {
   return (
     <MainLayout>
       <img
-        className='w-full h-28 object-cover'
+        className='w-full object-cover'
         src={logo}
         alt='logo'
       />

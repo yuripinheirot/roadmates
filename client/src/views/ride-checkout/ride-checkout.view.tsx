@@ -1,6 +1,5 @@
-import { createContext, useState } from 'react'
+import { useState } from 'react'
 import { EstimateStep } from './components/steps/estimate.step'
-import { RideConfirmedStep } from './components/steps/ride-confirmed.step'
 import { Steps } from './types'
 import { FormProvider, useForm } from 'react-hook-form'
 import { EstimateFormSchemaType } from './components/forms/schema'
@@ -12,12 +11,7 @@ import { useToast } from '@/hooks/use-toast'
 import { AxiosError } from 'axios'
 import { DriversStep } from './components/steps/drivers.step'
 import { DriverModel } from '@/domain/models/driver.model'
-
-export const RideCheckoutContext = createContext({
-  setCurrentStep: (step: number) => {},
-  confirmRide: async (driver: DriverModel) => {},
-  isLoadingConfirmRide: false,
-})
+import { RideCheckoutContext } from './contexts/ride-checkout.context'
 
 export const RideCheckoutView = () => {
   const { toast } = useToast()
@@ -88,13 +82,6 @@ export const RideCheckoutView = () => {
           onBack={() => setCurrentStep(Steps.ESTIMATE)}
           onContinue={() => setCurrentStep(Steps.RIDE_CONFIRMED)}
         />
-      ),
-    },
-    {
-      key: Steps.RIDE_CONFIRMED,
-      label: 'Sucesso!',
-      component: (
-        <RideConfirmedStep onBack={() => setCurrentStep(Steps.DRIVERS)} />
       ),
     },
   ]
