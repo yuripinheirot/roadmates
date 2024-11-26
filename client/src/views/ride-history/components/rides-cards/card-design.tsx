@@ -43,7 +43,7 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
     <Card className='w-full'>
       <CardHeader>
         <CardTitle>
-          {data.origin} - {data.destination}
+          {data.origin} → {data.destination}
         </CardTitle>
         <CardDescription>Dados da corrida</CardDescription>
       </CardHeader>
