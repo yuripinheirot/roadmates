@@ -27,6 +27,7 @@ export const ridesController = {
         driver_id: driver_id_param,
       },
     })
+
     return response.data
   },
 }

@@ -6,7 +6,7 @@ import {
   HistoryFormSchema,
   HistoryFormSchemaType,
 } from './components/form/schema'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { RidesCards } from './components/rides-cards'
 import { ridesController } from '@/api/controllers/rides/rides.controller'
 import { AxiosError } from 'axios'
@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 
 export const RideHistoryView = () => {
   const [searchParams] = useSearchParams()
+  const queryClient = useQueryClient()
 
   const formMethods = useForm<HistoryFormSchemaType>({
     resolver: zodResolver(HistoryFormSchema),
@@ -27,7 +28,7 @@ export const RideHistoryView = () => {
     queryKey: ['rides'],
     queryFn: async () => {
       try {
-        return ridesController.list({
+        return await ridesController.list({
           customer_id: formMethods.getValues().customer_id,
           driver_id: formMethods.getValues().driver_id,
         })
@@ -54,6 +55,12 @@ export const RideHistoryView = () => {
 
   useEffect(() => {
     loadParams()
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      queryClient.clear()
+    }
   }, [])
 
   return (
