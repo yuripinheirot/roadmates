@@ -4,17 +4,32 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { NotFoundView } from './views/not-found/not-found.view'
 import { Toaster } from '@/components/ui/toaster'
 import { RideHistoryView } from './views/ride-history/ride-history.view'
+import { HomeView } from './views/home/home.view'
+import logo from '@/assets/logo-black.svg'
+import { Breadcrumb } from './components/breadcrumb/breadcrumb'
+import { summaryRoutes } from './utils/summary-routes'
+
 export const App = () => {
   return (
     <MainLayout>
+      <img
+        className='w-full h-28 object-cover'
+        src={logo}
+        alt='logo'
+      />
       <BrowserRouter>
+        <Breadcrumb />
         <Routes>
           <Route
-            path='/'
+            path={summaryRoutes.home}
+            element={<HomeView />}
+          />
+          <Route
+            path={summaryRoutes.estimate}
             element={<RideCheckoutView />}
           />
           <Route
-            path='/history'
+            path={summaryRoutes.history}
             element={<RideHistoryView />}
           />
           <Route
