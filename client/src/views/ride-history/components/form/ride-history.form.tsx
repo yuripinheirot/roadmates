@@ -18,6 +18,8 @@ type Props = {
 
 export const RideHistoryForm = ({ children, onSubmit }: Props) => {
   const [searchParams] = useSearchParams()
+  const customer_id = searchParams.get('customer_id')
+  const driver_id = searchParams.get('driver_id')
 
   const {
     handleSubmit,
@@ -66,7 +68,7 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
         placeholder='Selecione um cliente'
         isLoading={isLoadingCustomers}
         error={errors.customer_id as FieldError}
-        defaultValue={searchParams.get('customer_id') || ''}
+        defaultValue={customer_id || ''}
       />
       <SelectControlled
         label='Motorista'
@@ -77,7 +79,7 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
         isLoading={isLoadingDrivers}
         error={errors.driver_id as FieldError}
         optionAll={true}
-        defaultValue={searchParams.get('driver_id') || '*'}
+        defaultValue={driver_id || '*'}
       />
       {children}
     </form>
