@@ -4,8 +4,9 @@ COPY ./ /home/node/app/client
 
 WORKDIR /home/node/app/client
 
-EXPOSE 80
 
 RUN yarn install
+
+EXPOSE 80
 
 CMD ["yarn", "dev"]

@@ -12,33 +12,35 @@ networks:
     name: app-network
 
 services:
-  base: &base
-    hostname: base
-    image: node:20-alpine
+
+  api:
+    hostname: api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     working_dir: /home/node/app/api
     volumes:
       - ./api:/home/node/app/api
       - node-modules-vol-api:/home/node/app/api/node_modules
-    networks:
-      - app-network
-
-  app:
-    <<: *base
-    hostname: app
     env_file:
       - .env
     ports:
       - 8080:3003
       - 9229:9229
-    command: ash -c "yarn install && yarn prisma generate && yarn dev"
+    command: ash -c "yarn install && yarn prisma generate && yarn seed && yarn dev"
+    networks:
+      - app-network
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   postgres:
     image: postgres:16
     volumes:
       - postgres-vol:/var/lib/postgresql/data
+      - .env:/home/node/app/api/.env
     ports:
       - 5432:5432
     environment:
@@ -47,6 +49,11 @@ services:
       POSTGRES_PASSWORD: postgres
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
 
   redis:
     hostname: redis
@@ -70,14 +77,6 @@ services:
       - redis
     networks:
       - app-network
-
-  specs:
-    <<: *base
-    command: ash -c "yarn install && yarn test"
-    env_file:
-      - ./.env
-    environment:
-      NODE_ENV: local
 
   client:
     build:
