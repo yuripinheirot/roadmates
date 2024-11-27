@@ -12,6 +12,7 @@ import { AxiosError } from 'axios'
 import { DriversStep } from './components/steps/drivers/drivers.step'
 import { DriverModel } from '@/domain/models/driver.model'
 import { RideCheckoutContext } from './contexts/ride-checkout.context'
+import { Typography } from '@/components/ui/typography'
 
 export const RideCheckoutView = () => {
   const { toast } = useToast()
@@ -90,6 +91,12 @@ export const RideCheckoutView = () => {
       <RideCheckoutContext.Provider
         value={{ confirmRide, setCurrentStep, isLoadingConfirmRide }}
       >
+        <Typography
+          variant='header2'
+          weight='bold'
+        >
+          Procurar corrida
+        </Typography>
         <section className='flex flex-col gap-4'>
           <div>{steps[currentStep].component}</div>
         </section>

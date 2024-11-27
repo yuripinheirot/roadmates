@@ -13,6 +13,7 @@ import { AxiosError } from 'axios'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { toast } from '@/hooks/use-toast'
+import { Typography } from '@/components/ui/typography'
 
 export const RideHistoryView = () => {
   const [searchParams] = useSearchParams()
@@ -71,6 +72,12 @@ export const RideHistoryView = () => {
   return (
     <FormProvider {...formMethods}>
       <section className='flex flex-col gap-4'>
+        <Typography
+          variant='header2'
+          weight='bold'
+        >
+          Histórico de corridas
+        </Typography>
         <RideHistoryForm onSubmit={fetchRides}>
           <Button type='submit'>Buscar</Button>
         </RideHistoryForm>

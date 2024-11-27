@@ -14,7 +14,7 @@ export const DriversCards = ({ data }: Props) => {
   return (
     <div>
       <Typography
-        variant='header3'
+        variant='body1'
         weight='semibold'
       >
         Selecione um motorista

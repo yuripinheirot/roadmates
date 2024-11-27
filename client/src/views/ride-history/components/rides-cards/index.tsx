@@ -17,8 +17,8 @@ export const RidesCards = ({ data }: Props) => {
     return (
       <div>
         <Typography
-          variant='header3'
-          weight='bold'
+          variant='body1'
+          weight='semibold'
         >
           Corridas encontradas
         </Typography>
