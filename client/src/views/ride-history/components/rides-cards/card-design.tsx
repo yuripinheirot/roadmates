@@ -42,7 +42,7 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
   return (
     <Card className='w-full'>
       <CardHeader>
-        <CardTitle className='capitalize'>
+        <CardTitle className='uppercase'>
           {data.origin} → {data.destination}
         </CardTitle>
         <CardDescription>Dados da corrida</CardDescription>
@@ -66,7 +66,7 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
             value={formatDuration(Number(data.duration.replace('s', '')))}
           />
           <SubItem
-            title='Valor'
+            title='Valor total'
             value={DineroUtils.formatToString({
               value: data.value,
               precision: 2,

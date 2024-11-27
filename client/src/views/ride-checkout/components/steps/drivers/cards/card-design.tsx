@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { DineroUtils } from '@/utils/dinero'
 import { Rating } from '@smastrom/react-rating'
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { toast } from '@/hooks/use-toast'
 import { useNavigate } from 'react-router'
 import { summaryRoutes } from '@/utils/summary-routes'
@@ -20,7 +20,8 @@ import { RideCheckoutContext } from '@/views/ride-checkout/contexts/ride-checkou
 
 export const CardDesign = ({ data }: { data: DriverModel }) => {
   const navigate = useNavigate()
-  const { confirmRide, isLoadingConfirmRide } = useContext(RideCheckoutContext)
+  const { confirmRide, isLoadingConfirmRide, estimatedRouteData } =
+    useContext(RideCheckoutContext)
   const { getValues } = useFormContext()
 
   const SubItem = ({
@@ -64,6 +65,14 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
     )
   }
 
+  const calculateTotalValue = useCallback(() => {
+    const distance = estimatedRouteData?.distance
+    const value = data.value / 100
+    const total = Number(distance) * Number(value)
+
+    return total.toFixed(2)
+  }, [estimatedRouteData, data.value])
+
   return (
     <Card className='w-full'>
       <CardHeader>
@@ -85,15 +94,22 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
             }
           />
           <SubItem
-            title='Preço'
+            title='Km mínimo'
+            value={`${data.minDistance} km`}
+          />
+          <SubItem
+            title='Preço por km'
             value={DineroUtils.formatToString({
               value: data.value,
               precision: 2,
             })}
           />
           <SubItem
-            title='Km mínimo'
-            value={`${data.minDistance} km`}
+            title='Valor total'
+            value={DineroUtils.formatToString({
+              value: calculateTotalValue(),
+              precision: 2,
+            })}
           />
         </div>
       </CardContent>

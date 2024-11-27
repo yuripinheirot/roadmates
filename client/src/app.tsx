@@ -12,11 +12,6 @@ import { summaryRoutes } from './utils/summary-routes'
 export const App = () => {
   return (
     <MainLayout>
-      <img
-        className='w-full object-cover'
-        src={logo}
-        alt='logo'
-      />
       <BrowserRouter>
         <Breadcrumb />
         <Routes>

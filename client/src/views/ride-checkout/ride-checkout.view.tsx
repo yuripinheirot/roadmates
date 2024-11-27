@@ -89,7 +89,12 @@ export const RideCheckoutView = () => {
   return (
     <FormProvider {...formMethods}>
       <RideCheckoutContext.Provider
-        value={{ confirmRide, setCurrentStep, isLoadingConfirmRide }}
+        value={{
+          confirmRide,
+          setCurrentStep,
+          isLoadingConfirmRide,
+          estimatedRouteData,
+        }}
       >
         <Typography
           variant='header2'
