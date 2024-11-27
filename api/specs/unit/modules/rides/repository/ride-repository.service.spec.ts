@@ -1,5 +1,6 @@
 import { RideRepositoryService } from '@/modules/rides/repository/ride-repository.service';
 import { PrismaService } from '@/services/prisma.service';
+import { ConfigService } from '@nestjs/config';
 import { TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { buildTestingModule } from '@specs/support/specs.module';
@@ -7,12 +8,28 @@ import { buildTestingModule } from '@specs/support/specs.module';
 describe('[UNIT] [rides/repository/ride-repository.service]', () => {
   let sut: RideRepositoryService;
   let prismaService: PrismaService;
+  let configService: ConfigService;
 
   beforeAll(async () => {
-    const module: TestingModule = await buildTestingModule().compile();
+    const module: TestingModule = await buildTestingModule()
+      .overrideProvider(PrismaService)
+      .useValue({
+        driver: {
+          findMany: jest.fn(),
+          findUnique: jest.fn(),
+        },
+        ride: {
+          findMany: jest.fn(),
+          create: jest.fn(),
+        },
+      })
+      .compile();
 
     sut = module.get<RideRepositoryService>(RideRepositoryService);
     prismaService = module.get<PrismaService>(PrismaService);
+    configService = module.get<ConfigService>(ConfigService);
+
+    jest.spyOn(configService, 'getOrThrow').mockReturnValue('API_KEY');
   });
 
   beforeEach(() => {
@@ -22,11 +39,13 @@ describe('[UNIT] [rides/repository/ride-repository.service]', () => {
   describe('getDriversByMinDistance()', () => {
     describe('validations', () => {
       test('should receive correct params', async () => {
-        jest.spyOn(prismaService.driver, 'findMany').mockResolvedValue([]);
+        const spy = jest
+          .spyOn(prismaService.driver, 'findMany')
+          .mockResolvedValue([]);
 
         await sut.getDriversByMinDistance(10);
 
-        expect(prismaService.driver.findMany).toHaveBeenCalledWith({
+        expect(spy).toHaveBeenCalledWith({
           where: {
             minDistance: {
               lte: 10,
@@ -64,6 +83,13 @@ describe('[UNIT] [rides/repository/ride-repository.service]', () => {
         });
 
         expect(prismaService.ride.findMany).toHaveBeenCalledWith({
+          include: {
+            driver: {
+              select: {
+                name: true,
+              },
+            },
+          },
           where: {
             customer_id: '1',
             driver_id: '1',
