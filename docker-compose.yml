@@ -35,6 +35,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
+      client:
+        condition: service_started
 
   postgres:
     image: postgres:16
