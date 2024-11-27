@@ -7,7 +7,7 @@ export const GoogleMapsProvider = ({
 }) => {
   return (
     <APIProvider
-      apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+      apiKey={import.meta.env.VITE_GOOGLE_API_KEY}
       onLoad={() => console.log('Maps API has loaded.')}
     >
       {children}

@@ -5,7 +5,6 @@ import { NotFoundView } from './views/not-found/not-found.view'
 import { Toaster } from '@/components/ui/toaster'
 import { RideHistoryView } from './views/ride-history/ride-history.view'
 import { HomeView } from './views/home/home.view'
-import logo from '@/assets/logo-black.svg'
 import { Breadcrumb } from './components/breadcrumb/breadcrumb'
 import { summaryRoutes } from './utils/summary-routes'
 

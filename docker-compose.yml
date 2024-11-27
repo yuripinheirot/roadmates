@@ -2,7 +2,8 @@ version: '3.9'
 
 volumes:
   app-vol:
-  node-modules-vol:
+  node-modules-vol-api:
+  node-modules-vol-client:
   postgres-vol:
   redis-vol:
 
@@ -14,10 +15,10 @@ services:
   base: &base
     hostname: base
     image: node:20-alpine
-    working_dir: /home/node/app
+    working_dir: /home/node/app/api
     volumes:
-      - ./:/home/node/app
-      - node-modules-vol:/home/node/app/node_modules
+      - ./api:/home/node/app/api
+      - node-modules-vol-api:/home/node/app/api/node_modules
     networks:
       - app-network
 
@@ -25,9 +26,9 @@ services:
     <<: *base
     hostname: app
     env_file:
-      - ./.env
+      - .env
     ports:
-      - 3003:3003
+      - 8080:3003
       - 9229:9229
     command: ash -c "yarn install && yarn prisma generate && yarn dev"
     depends_on:
@@ -53,7 +54,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - redis-vol:/home/node/app/data/redis
+      - redis-vol:/home/node/app/api/data/redis
     networks:
       - app-network
 
@@ -77,3 +78,22 @@ services:
       - ./.env
     environment:
       NODE_ENV: local
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    working_dir: /home/node/app/client
+    env_file:
+      - .env
+    ports:
+      - 80:5173
+    volumes:
+      - ./client:/home/node/app/client
+      - node-modules-vol-client:/home/node/app/client/node_modules
+      - .env:/home/node/app/client/.env
+    command: yarn dev
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
