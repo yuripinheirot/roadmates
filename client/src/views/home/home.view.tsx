@@ -8,7 +8,7 @@ export const HomeView = () => {
 
   return (
     <section className='flex flex-col gap-4'>
-      <div className='w-full h-[300px]'>
+      <div className='w-full h-[550px]'>
         <GoogleMap markers={[]} />
       </div>
       <div className='flex flex-col gap-4'>
