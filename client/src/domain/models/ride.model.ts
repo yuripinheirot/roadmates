@@ -7,7 +7,7 @@ export type RideModel = {
   value: number
   date: Date
   customer_id: string
-  driver_id: string
+  driver_id: number
   driver?: {
     name: string
   }

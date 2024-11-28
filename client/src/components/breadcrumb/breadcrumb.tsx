@@ -9,6 +9,7 @@ import {
 import { breadcrumbLocations } from './breadcrumb-locations'
 import { useLocation, useNavigate } from 'react-router'
 import { summaryRoutes } from '@/utils/summary-routes'
+import { Fragment } from 'react/jsx-runtime'
 
 export function Breadcrumb() {
   const navigate = useNavigate()
@@ -22,7 +23,7 @@ export function Breadcrumb() {
       const Component = isLastItem ? BreadcrumbPage : BreadcrumbLink
 
       return (
-        <>
+        <Fragment key={item.href}>
           <BreadcrumbItem
             className={isLastItem ? 'cursor-default' : 'cursor-pointer'}
           >
@@ -31,7 +32,7 @@ export function Breadcrumb() {
             </Component>
           </BreadcrumbItem>
           {index !== items.length - 1 && <BreadcrumbSeparator />}
-        </>
+        </Fragment>
       )
     })
 

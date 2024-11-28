@@ -11,12 +11,14 @@ import { formatResponseError } from '@/utils/format-response-error.util';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { GoogleCalculateRouteService } from '@/providers/google-api/google-calculate-route.service';
 import { Driver } from '@prisma/client';
+import { CalculateRideService } from './calculate-ride.service';
 
 @Injectable()
 export class EstimateService {
   constructor(
     private readonly googleCalculateRouteService: GoogleCalculateRouteService,
     private readonly rideRepository: RideRepositoryService,
+    private readonly calculateRideService: CalculateRideService,
   ) {}
 
   async validateCustomer(customer_id: string) {
@@ -38,14 +40,18 @@ export class EstimateService {
     )[0];
   }
 
-  formatOptions(options: Driver[]): OptionsResponseDto[] {
+  formatOptions(options: Driver[], distance: number): OptionsResponseDto[] {
     return options.map((option) => ({
       id: option.id,
       name: option.name,
       description: option.description,
       vehicle: option.vehicle,
       review: option.review as { rating: number; comment: string },
-      value: option.value,
+      value: this.calculateRideService.handle({
+        distance,
+        value: option.value,
+      }),
+      minDistance: option.minDistance,
     }));
   }
 
@@ -79,7 +85,7 @@ export class EstimateService {
       destination: shorterRoute.legs[0].endLocation.latLng,
       distance: shorterRoute.distanceMeters,
       duration: shorterRoute.duration,
-      options: this.formatOptions(drivers),
+      options: this.formatOptions(drivers, shorterRoute.distanceMeters),
       routeResponse: calculatedRoute,
     };
   }

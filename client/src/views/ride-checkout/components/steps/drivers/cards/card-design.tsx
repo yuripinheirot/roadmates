@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {
   CardHeader,
   CardTitle,
@@ -12,20 +11,16 @@ import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { DineroUtils } from '@/utils/dinero'
 import { Rating } from '@smastrom/react-rating'
-import { useCallback, useContext } from 'react'
+import { useContext } from 'react'
 import { toast } from '@/hooks/use-toast'
 import { useNavigate } from 'react-router'
 import { summaryRoutes } from '@/utils/summary-routes'
 import { useFormContext } from 'react-hook-form'
 import { RideCheckoutContext } from '@/views/ride-checkout/contexts/ride-checkout.context'
-import {
-  calculateTotalValue as calculateTotalValueUtils,
-  formatDistance,
-} from '@/utils/utils'
+import { formatDistance } from '@/utils/utils'
 export const CardDesign = ({ data }: { data: DriverModel }) => {
   const navigate = useNavigate()
-  const { confirmRide, isLoadingConfirmRide, estimatedRouteData } =
-    useContext(RideCheckoutContext)
+  const { confirmRide, isLoadingConfirmRide } = useContext(RideCheckoutContext)
   const { getValues } = useFormContext()
 
   const SubItem = ({
@@ -69,15 +64,6 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
     )
   }
 
-  const calculateTotalValue = useCallback(() => {
-    const total = calculateTotalValueUtils(
-      estimatedRouteData?.distance!,
-      data.value
-    )
-
-    return total
-  }, [estimatedRouteData, data.value])
-
   return (
     <Card className='w-full'>
       <CardHeader>
@@ -103,16 +89,9 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
             value={formatDistance(data.minDistance)}
           />
           <SubItem
-            title='Preço por km'
-            value={DineroUtils.formatToString({
-              value: data.value,
-              precision: 2,
-            })}
-          />
-          <SubItem
             title='Valor total'
             value={DineroUtils.formatToString({
-              value: calculateTotalValue(),
+              value: data.value,
               precision: 2,
             })}
           />

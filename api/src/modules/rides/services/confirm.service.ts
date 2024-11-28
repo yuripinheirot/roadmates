@@ -8,10 +8,14 @@ import { ConfirmRequestDto } from '../dtos/confirm.request.dto';
 import { formatResponseError } from '@/utils/format-response-error.util';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { Prisma } from '@prisma/client';
+import { CalculateRideService } from './calculate-ride.service';
 
 @Injectable()
 export class ConfirmService {
-  constructor(private readonly rideRepository: RideRepositoryService) {}
+  constructor(
+    private readonly rideRepository: RideRepositoryService,
+    private readonly calculateRideService: CalculateRideService,
+  ) {}
 
   async validateDriver(body: ConfirmRequestDto): Promise<void> {
     const driver = await this.rideRepository.findDriverById(body.driver.id);
@@ -53,11 +57,6 @@ export class ConfirmService {
     await this.validateCustomer(body.customer_id);
   }
 
-  calculateRideValue(body: ConfirmRequestDto): number {
-    const distanceInKm = body.distance / 1000;
-    return distanceInKm * body.value;
-  }
-
   formatRidePayload(body: ConfirmRequestDto): Prisma.RideCreateInput {
     const { customer_id, driver, ...rest } = body;
     return {
@@ -74,7 +73,7 @@ export class ConfirmService {
         },
       },
       distance: body.distance,
-      value: this.calculateRideValue(body),
+      value: body.value,
     };
   }
 

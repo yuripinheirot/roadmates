@@ -40,7 +40,7 @@ export const RideHistoryForm = ({ children, onSubmit }: Props) => {
   const driversFormated = useMemo(
     () =>
       drivers?.map((d) => ({
-        key: d.id,
+        key: d.id.toString(),
         value: `${d.name} - ${d.vehicle}`,
       })),
     [drivers]

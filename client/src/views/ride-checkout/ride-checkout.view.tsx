@@ -93,7 +93,7 @@ export const RideCheckoutView = () => {
           confirmRide,
           setCurrentStep,
           isLoadingConfirmRide,
-          estimatedRouteData,
+          estimatedRouteData: estimatedRouteData || null,
         }}
       >
         <Typography

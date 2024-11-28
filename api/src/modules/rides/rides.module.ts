@@ -9,6 +9,7 @@ import { ListService } from './services/list.service';
 import { ListController } from './controllers/list.controller';
 import { HttpModule } from '@nestjs/axios';
 import { GoogleCalculateRouteService } from '@/providers/google-api/google-calculate-route.service';
+import { CalculateRideService } from './services/calculate-ride.service';
 
 @Module({
   imports: [HttpModule],
@@ -20,6 +21,7 @@ import { GoogleCalculateRouteService } from '@/providers/google-api/google-calcu
     ConfirmService,
     ListService,
     GoogleCalculateRouteService,
+    CalculateRideService,
   ],
 })
 export class RidesModule {}
