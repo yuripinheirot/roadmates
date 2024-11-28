@@ -15,6 +15,9 @@ export class RideRepositoryService {
           lte: minDistance,
         },
       },
+      orderBy: {
+        value: 'asc',
+      },
     });
   }
 

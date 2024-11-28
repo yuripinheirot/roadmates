@@ -51,6 +51,9 @@ describe('[UNIT] [rides/repository/ride-repository.service]', () => {
               lte: 10,
             },
           },
+          orderBy: {
+            value: 'asc',
+          },
         });
       });
     });
