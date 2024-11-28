@@ -29,7 +29,7 @@ export class RidesFactory extends Factory {
         },
         origin: faker.location.state(),
         destination: faker.location.state(),
-        distance: faker.number.int({ min: 1, max: 1000 }),
+        distance: faker.number.int({ min: 1000, max: 1000_000 }),
         duration: `${faker.number.int({ min: 1, max: 100000 })}s`,
         date: faker.date.between({
           from: new Date('2020-01-01'),

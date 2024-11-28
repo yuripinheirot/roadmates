@@ -9,7 +9,11 @@ import { Typography } from '@/components/ui/typography'
 import { RideModel } from '@/domain/models/ride.model'
 import { DineroUtils } from '@/utils/dinero'
 import { format } from 'date-fns'
-import { formatDuration } from '@/utils/utils'
+import {
+  calculateTotalValue,
+  formatDistance,
+  formatDuration,
+} from '@/utils/utils'
 
 export const CardDesign = ({ data }: { data: RideModel }) => {
   const SubItem = ({
@@ -59,7 +63,7 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
           />
           <SubItem
             title='Distância'
-            value={`${data.distance} km`}
+            value={`${formatDistance(data.distance)}`}
           />
           <SubItem
             title='Tempo'

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {
   CardHeader,
   CardTitle,
@@ -17,7 +18,10 @@ import { useNavigate } from 'react-router'
 import { summaryRoutes } from '@/utils/summary-routes'
 import { useFormContext } from 'react-hook-form'
 import { RideCheckoutContext } from '@/views/ride-checkout/contexts/ride-checkout.context'
-
+import {
+  calculateTotalValue as calculateTotalValueUtils,
+  formatDistance,
+} from '@/utils/utils'
 export const CardDesign = ({ data }: { data: DriverModel }) => {
   const navigate = useNavigate()
   const { confirmRide, isLoadingConfirmRide, estimatedRouteData } =
@@ -66,11 +70,12 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
   }
 
   const calculateTotalValue = useCallback(() => {
-    const distance = estimatedRouteData?.distance
-    const value = data.value / 100
-    const total = Number(distance) * Number(value)
+    const total = calculateTotalValueUtils(
+      estimatedRouteData?.distance!,
+      data.value
+    )
 
-    return total.toFixed(2)
+    return total
   }, [estimatedRouteData, data.value])
 
   return (
@@ -95,7 +100,7 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
           />
           <SubItem
             title='Km mínimo'
-            value={`${data.minDistance} km`}
+            value={formatDistance(data.minDistance)}
           />
           <SubItem
             title='Preço por km'

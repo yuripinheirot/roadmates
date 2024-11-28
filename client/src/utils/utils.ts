@@ -5,7 +5,15 @@ import {
 import { ptBR } from 'date-fns/locale'
 
 export const formatDistance = (distance: number) => {
-  return `${distance.toFixed(0)} km`
+  const distanceInKm = distance / 1000
+  return `${distanceInKm.toFixed(0)} km`
+}
+
+export const calculateTotalValue = (distance: number, value: number) => {
+  const distanceInKm = distance / 1000
+  const valueConverted = value / 100
+
+  return (distanceInKm * valueConverted).toFixed(2)
 }
 
 export const formatDuration = (duration: number) => {

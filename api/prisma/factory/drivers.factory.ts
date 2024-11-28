@@ -4,9 +4,7 @@ import { faker } from '@faker-js/faker';
 
 export class DriversFactory extends Factory {
   static build(amountRegisters: number) {
-    const validDistances = [
-      1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
-    ];
+    const validDistances = [1_000, 50_000, 100_000, 1000_000, 1500_000];
 
     const list = Array.from({ length: amountRegisters }, () => ({
       value: faker.number.int({ min: 1, max: 1000 }),
