@@ -2,7 +2,7 @@ import { Driver } from '@prisma/client';
 
 export const driversMock: Driver[] = [
   {
-    id: '60d9d2df-f713-426d-b7e6-30d058ab5202',
+    id: 1,
     name: 'Homer Simpson',
     description: 'Homer Simpson description',
     vehicle: 'Homer Simpson vehicle',
@@ -14,7 +14,7 @@ export const driversMock: Driver[] = [
     minDistance: 100,
   },
   {
-    id: '4d936e42-8a1d-40b9-9ca3-233afb97eb99',
+    id: 2,
     name: 'Dominic Toretto',
     description: 'Dominic Toretto description',
     vehicle: 'Dominic Toretto vehicle',
@@ -26,7 +26,7 @@ export const driversMock: Driver[] = [
     minDistance: 300,
   },
   {
-    id: 'd3f96fc0-ca60-435a-88d6-1bcd0f88549a',
+    id: 3,
     name: 'James Bond',
     description: 'James Bond description',
     vehicle: 'James Bond vehicle',

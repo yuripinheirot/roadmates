@@ -1,7 +1,7 @@
-import { IsOptional, IsUUID } from 'class-validator';
+import { IsNumber, IsOptional } from 'class-validator';
 
 export class ListQueryRequestDto {
-  @IsUUID()
+  @IsNumber()
   @IsOptional()
-  driver_id?: string;
+  driver_id?: number;
 }

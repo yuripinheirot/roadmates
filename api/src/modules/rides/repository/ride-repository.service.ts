@@ -21,7 +21,7 @@ export class RideRepositoryService {
     });
   }
 
-  async findDriverById(id: string): Promise<Driver | null> {
+  async findDriverById(id: number): Promise<Driver | null> {
     return this.prismaService.driver.findUnique({
       where: { id },
     });

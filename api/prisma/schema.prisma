@@ -28,7 +28,7 @@ model Customer {
 }
 
 model Driver {
-  id          String @id @default(uuid())
+  id          Int    @id @default(autoincrement())
   name        String
   description String
   vehicle     String
@@ -51,7 +51,7 @@ model Ride {
   date        DateTime
 
   customer_id String
-  driver_id   String
+  driver_id   Int
 
   customer Customer @relation(fields: [customer_id], references: [id])
   driver   Driver   @relation(fields: [driver_id], references: [id])

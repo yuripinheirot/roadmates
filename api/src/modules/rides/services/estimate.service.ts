@@ -3,10 +3,14 @@ import { EstimateRequestDto } from '../dtos/estimate.request.dto';
 import { RideRepositoryService } from '../repository/ride-repository.service';
 import { GoogleRouteResponse } from '@/providers/google-api/protocols/google-route-response.type';
 import { GoogleRoute } from '@/providers/google-api/protocols/google-route-response.type';
-import { EstimateResponseDto } from '../dtos/estimate.response.dto';
+import {
+  EstimateResponseDto,
+  OptionsResponseDto,
+} from '../dtos/estimate.response.dto';
 import { formatResponseError } from '@/utils/format-response-error.util';
 import { CodeErrorsEnum } from '@/protocols/code-errors.type';
 import { GoogleCalculateRouteService } from '@/providers/google-api/google-calculate-route.service';
+import { Driver } from '@prisma/client';
 
 @Injectable()
 export class EstimateService {
@@ -32,6 +36,17 @@ export class EstimateService {
     return routes.routes?.sort(
       (a, b) => a.distanceMeters - b.distanceMeters,
     )[0];
+  }
+
+  formatOptions(options: Driver[]): OptionsResponseDto[] {
+    return options.map((option) => ({
+      id: option.id,
+      name: option.name,
+      description: option.description,
+      vehicle: option.vehicle,
+      review: option.review as { rating: number; comment: string },
+      value: option.value,
+    }));
   }
 
   async handle(body: EstimateRequestDto): Promise<EstimateResponseDto> {
@@ -64,7 +79,7 @@ export class EstimateService {
       destination: shorterRoute.legs[0].endLocation.latLng,
       distance: shorterRoute.distanceMeters,
       duration: shorterRoute.duration,
-      options: drivers,
+      options: this.formatOptions(drivers),
       routeResponse: calculatedRoute,
     };
   }
