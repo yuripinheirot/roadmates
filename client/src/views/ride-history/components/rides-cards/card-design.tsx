@@ -59,7 +59,7 @@ export const CardDesign = ({ data }: { data: RideModel }) => {
           />
           <SubItem
             title='Data'
-            value={format(data.date, 'dd/MM/yyyy')}
+            value={format(data.date, 'dd/MM/yyyy HH:mm')}
           />
           <SubItem
             title='Distância'
