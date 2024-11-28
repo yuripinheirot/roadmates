@@ -89,6 +89,13 @@ export const CardDesign = ({ data }: { data: DriverModel }) => {
             value={formatDistance(data.minDistance)}
           />
           <SubItem
+            title='Valor por km'
+            value={DineroUtils.formatToString({
+              value: data.pricePerKm,
+              precision: 2,
+            })}
+          />
+          <SubItem
             title='Valor total'
             value={DineroUtils.formatToString({
               value: data.value,

@@ -9,4 +9,5 @@ export type DriverModel = {
     comment: string
   }
   minDistance: number
+  pricePerKm: number
 }

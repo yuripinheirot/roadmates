@@ -52,6 +52,7 @@ export class EstimateService {
         value: option.value,
       }),
       minDistance: option.minDistance,
+      pricePerKm: option.value,
     }));
   }
 

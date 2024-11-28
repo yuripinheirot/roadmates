@@ -11,6 +11,7 @@ export type OptionsResponseDto = {
     comment: string;
   };
   value: number;
+  pricePerKm: number;
 };
 
 export class EstimateResponseDto {
