@@ -131,7 +131,7 @@ describe('[UNIT] [rides/confirm.service] - [handle()]', () => {
           destination: validPayload.destination,
           distance: validPayload.distance,
           duration: validPayload.duration,
-          value: 1,
+          value: 10,
           date: new Date(),
           customer: {
             connect: {

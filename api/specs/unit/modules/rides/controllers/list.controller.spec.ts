@@ -56,14 +56,15 @@ describe('[UNIT] [rides/list.controller] - [list()]', () => {
       test('should validate all optional params', async () => {
         const invalidSut = makeSut({
           customer_id: randomUUID(),
-          driver_id: '1',
+          driver_id: randomUUID(),
         });
         const response = await request(app.getHttpServer()).get(invalidSut);
 
         expect(response.status).toBe(400);
         expect(response.body).toEqual({
           error_code: 'INVALID_DATA',
-          error_description: 'driver_id must be a UUID',
+          error_description:
+            'driver_id must be a number conforming to the specified constraints',
         });
       });
     });

@@ -43,7 +43,7 @@ describe('[UNIT] [rides/confirm.controller] - [handle()]', () => {
         expect(response.body).toEqual({
           error_code: 'INVALID_DATA',
           error_description:
-            'customer_id should not be empty, customer_id must be a string, origin should not be empty, origin must be a string, destination should not be empty, destination must be a string, distance should not be empty, distance must be a number conforming to the specified constraints, duration should not be empty, duration must be a string, driver.id must be a string, driver.name must be a string, value should not be empty, value must be a number conforming to the specified constraints',
+            'customer_id should not be empty, customer_id must be a string, origin should not be empty, origin must be a string, destination should not be empty, destination must be a string, distance should not be empty, distance must be a number conforming to the specified constraints, duration should not be empty, duration must be a string, driver.id must be a number conforming to the specified constraints, driver.name must be a string, value should not be empty, value must be a number conforming to the specified constraints',
         });
       });
 
@@ -55,7 +55,7 @@ describe('[UNIT] [rides/confirm.controller] - [handle()]', () => {
           distance: 10,
           duration: '10',
           driver: {
-            id: '1',
+            id: 1,
             name: 'John Doe',
           },
           value: 10,

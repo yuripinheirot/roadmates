@@ -128,7 +128,11 @@ describe('[UNIT] [rides/estimate.service] - [handle()]', () => {
           destination: shorterRouteMock.legs[0].endLocation.latLng,
           distance: shorterRouteMock.distanceMeters,
           duration: shorterRouteMock.duration,
-          options: driversMock,
+          options: driversMock.map((driver) => ({
+            ...driver,
+            pricePerKm: driver.value,
+            value: driver.value / 10,
+          })),
           routeResponse: googleApiRouteResponseMock,
         });
       });
